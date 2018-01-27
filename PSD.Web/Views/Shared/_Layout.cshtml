@@ -1,0 +1,207 @@
+﻿@using PSD.Security
+@using PSD.Controller
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title :: Mi Portal Bayer</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("pageCSS", false)
+    <style type="text/css">
+    </style>
+</head>
+<body>
+    <div class="navbar-wrapper">
+        <div class="container">
+            <div class="row site-title-head" style="padding:20px 0 10px 0; margin:0;">
+                <div class="col-xs-6" style="padding:0; margin:0;">
+                    <a style=" text-decoration: none;" href="/" ui-sref="paginaPrincipal"> <span class="titulo-mi-cultivo">Mi Portal </span><span class="titulo-con-bayer"> Bayer </span> </a>
+                </div>
+                <div class="col-xs-6">
+                    <div class="logo-bayer" style="float: right; position: relative;">
+                        <a style=" text-decoration: none;" href="/" target="_blank"> <img src="/Content/Media/Shared/Pictures/logo_bayer.png" alt="Bayer logo" /> </a>
+                    </div>
+                    <div class="text-right" style="padding-top:45px">
+                        @if (Identity.CurrentUser.IsLogged)
+                        {
+                            <a class="texto-menu-acceso-rapido" href="/Account/Index" style="font-size: 1.1em"><span class='glyphicon glyphicon-user'></span> @Identity.CurrentUser.DisplayName (@Identity.CurrentUser.InRoleIdBsString)</a>
+                            <a class="texto-menu-acceso-rapido" href="/"><span class='glyphicon'></span>&nbsp;</a>
+                            <a class="texto-menu-acceso-rapido" href="/Account/Logout"><span class='glyphicon glyphicon-log-out'></span>&nbsp;Salir</a>
+                            <a class="texto-menu-acceso-rapido" href="/"><span class='glyphicon'></span></a>
+                        }
+                        else
+                        {
+                            <a class="texto-menu-acceso-rapido" href="/Account/Login" style="font-size: 1.1em"><span class='glyphicon glyphicon-log-in col-md-offset-1'></span> Acceso</a>
+                            <a class="" href="/" style="width: 300px;"><span class='glyphicon'></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                        }
+                    </div>
+
+                </div>
+            </div>
+            <div class="row barra-navegacion">
+                <div class="col-md-12 col-sm-12">
+                    <nav style="margin-bottom: 0px; min-height:0;" class="navbar navbar-micultivo">
+                        <div class="navbar-header">
+                            <button id="btnMenu" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                                <span class="sr-only">Mostrar men&uacute;</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#">
+                                <div class="row titulo-bayer-mini">
+                                    <b>Bayer</b> Portal de Distribuidores
+                                </div>
+                            </a>
+                            <img src="https://www.micultivo.bayer.com.mx/images/logo_bayer_blanco.png" class="logo-bayer-blanco" alt="Bayer logo" />
+                        </div>
+                        <div id="navbar" class="navbar-collapse collapse">
+                            <ul class="nav navbar-nav">
+                                <li><a href="/">INICIO</a></li>
+                                <!--                                <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                                                <li><a href=""></a></li>
+                                -->
+                                @if (Identity.CurrentUser.IsLogged)
+                                {
+                                    if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin))
+                                    {
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Administration/Employee">USUARIOS BAYER</a></li>
+
+                                    }
+                                    if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeManagerView + "," + UserRole.EmployeeRTVOperation + "," + UserRole.EmployeeRTVView))
+                                    {
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Administration/Distributor">DISTRIBUIDORES</a></li>
+                                    }
+                                    if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeManagerView + "," + UserRole.EmployeeRTVOperation + "," + UserRole.EmployeeRTVView))
+                                    {
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Administration/Subdistributor">SUBDISTRIBUIDORES</a></li>
+                                    }
+                                    if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeManagerView + "," + UserRole.EmployeeRTVOperation + "," + UserRole.EmployeeRTVView))
+                                    {
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Contracts/BayerToDistributor">CONVENIOS DISTRIBUIDORES</a></li>
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Contracts/ToSubdistributor">CONVENIOS SUBDISTRIBUIDORES</a></li>
+                                    }
+                                    if (Identity.CurrentUser.IsInRole(UserRole.CustomerDistributorOperation))
+                                    {
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Contracts/MyDistributorContracts">MIS CONVENIOS</a></li>
+                                    }
+                                    if (Identity.CurrentUser.IsInRole(UserRole.CustomerDistributorOperation + "," + UserRole.CustomerDistributorView))
+                                    {
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Contracts/MyCollaboratorContracts">MIS PARTICIPANTES</a></li>
+                                    }
+                                    if (Identity.CurrentUser.IsInRole(UserRole.CustomerSubdistributorOperation + "," + UserRole.CustomerSubdistributorView))
+                                    {
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Contracts/MySubdistributorContracts">MIS CONVENIOS</a></li>
+                                    }
+                                    if (Identity.CurrentUser.IsInRole(UserRole.CustomerDistributorOperation + "," + UserRole.CustomerDistributorView + "," + UserRole.CustomerSubdistributorOperation + "," + UserRole.CustomerSubdistributorView))
+                                    {
+                                        <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                        <li><a href="/Content/News">AVISOS Y PROMOCIONES</a></li>
+                                    }
+                                }
+                                <li class="separador-navbar-mobile"><span class="separador-menu">|</span></li>
+                                <li><a href="/Content/Contactpage/Contact">CONTACTO</a></li>
+                            </ul>
+                        </div>
+
+                        <!--/.nav-collapse -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        <div class="row">
+            <div class="col-md-12">
+                <br />
+                @Html.Partial("~/Views/Shared/Controls/BreadCrumbs.cshtml")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @if (!string.IsNullOrWhiteSpace((string)TempData["messageOk"]))
+                { <div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>@Html.Raw(TempData["messageOk"])</div>}
+                @if (!string.IsNullOrWhiteSpace((string)TempData["message"]))
+                { <div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>@Html.Raw(TempData["message"])</div>}
+                @if (!string.IsNullOrWhiteSpace((string)TempData["messageError"]))
+                { <div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong><a @*TODO:put error detail (maybe info debug)*@ class="alert-link"></a></strong>@Html.Raw(TempData["messageError"])</div>}
+                @if (!string.IsNullOrWhiteSpace((string)TempData["messageDebug"]))
+                { <div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>@Html.Raw(TempData["messageDebug"])</div>}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+                {
+                    <div class="page-header" style="margin:0 0 1em 0;padding:0;">
+                        <h3 class="compact">@ViewBag.Title <small>@ViewBag.SubTitle</small></h3>
+                    </div>
+                }
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <footer>
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year Bayer - Derechos reservados</p>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/site")
+    <script type="text/javascript">
+        $(document).ready(function () {
+            ///TODO:merge this scripts into Site.js
+            LoadStylesByCulture();
+        });
+        function LoadStylesByCulture() {
+            $(".datatable").dataTable(
+            {
+                "sPaginationType": "full_numbers"
+                , "pageLength": 25 //tamaño de pagina
+                , "aLengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todos"]]
+                , "language":
+                {
+                    "lengthMenu": "Paginar" + ": _MENU_"
+                    , "zeroRecords": "No se encontraron resultados"
+                    , "info": ""//Mostrando página _PAGE_ de _PAGES_
+                    , "infoEmpty": "No hay registros"
+                    , "infoFiltered": ""//(filtrado de _MAX_ registros)
+                    , "search": "<span class='glyphicon glyphicon-search' style='margin-right:10px;'></span>"
+                    , "sSearchPlaceholder": "buscar"
+                    , "paginate":
+                    {
+                        "previous": "Anterior"
+                      , "next": "Siguiente"
+                      , "first": "Primero"
+                      , "last": "Último"
+                    }
+                    //                  , "sLengthSelect": "multiselect" no funciona (requiere inicializacion javascript y look&feel no funciona para elemento seleccionado
+                },
+                "order": []//no order (example: "order": [[2,'asc'], [3,'desc']])
+            }
+            );
+        }
+    </script>
+    @RenderSection("pageScripts", required: false)
+    @RenderSection("pageControls", required: false)
+    <script type="text/javascript">
+        @{WriteLiteral(TempData["resultScript"]);}
+
+        $(document).ready(function () {
+            FocusOnLoad();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<html>
+<head>
+<link href="../../../Content/themes/flatly/bootstrap.css" rel="stylesheet"/>
+<link href="../../../Content/Components/DataTables/css/jquery.dataTables.css" rel="stylesheet"/>
+<link href="../../../Content/Components/DataTables/css/dataTables.bootstrap.css" rel="stylesheet"/>
+<link href="../../../Content/Components/MultiSelect/bootstrap-multiselect.css" rel="stylesheet"/>
+<link href="typeahead.css" rel="stylesheet"/>
+
+<script src="../../../Scripts/jquery-1.11.3.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>-->
+    <script src="typeahead.0.11.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script><!--~/Content/Components/TypeAhead/Handlebars.v4.0.4.js  https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+/*            var bestPictures = new Bloodhound({
+  datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+  queryTokenizer: Bloodhound.tokenizers.whitespace,
+  prefetch: 'http://twitter.github.io/typeahead.js/data/films/post_1960.json',
+  remote: {
+    url: '../data/films/queries/%QUERY.json',
+    wildcard: '%QUERY'
+  }
+});
+
+$('#remote .typeahead').typeahead(null, {
+  name: 'best-pictures',
+  display: 'value',
+  source: bestPictures
+});*/
+// Instantiate the Bloodhound suggestion engine
+var movies = new Bloodhound({
+    datumTokenizer: function (datum) {
+        return Bloodhound.tokenizers.whitespace(datum.value);
+    },
+    queryTokenizer: Bloodhound.tokenizers.whitespace,
+    remote: {
+        url: 'http://api.themoviedb.org/3/search/movie?query=%QUERY&api_key=470fd2ec8853e25d2f8d86f685d2270e',
+        filter: function (movies) {
+            // Map the remote source JSON array to a JavaScript object array
+            return $.map(movies.results, function (movie) {
+                return {
+                    value: movie.original_title
+                };
+            });
+        }
+    }
+});
+
+// Initialize the Bloodhound suggestion engine
+movies.initialize();
+
+// Instantiate the Typeahead UI
+$('#remote .typeahead').typeahead(null, {
+    // Use 'value' as the displayKey because the filter function 
+    // returns suggestions in a javascript object with a variable called 'value'
+    displayKey: 'value',
+    source: movies.ttAdapter()
+});
+        });
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+</head>
+<body>
+<div id="remote">
+  <input class="typeahead" type="text" placeholder="Oscar winners for Best Picture">
+</div></body>
+</html>

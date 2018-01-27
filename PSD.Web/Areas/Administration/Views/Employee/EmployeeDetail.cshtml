@@ -1,0 +1,108 @@
+﻿@using PSD.Security
+@using PSD.Model
+@model PSD.Model.BayerEmployee
+@{
+    ViewBag.Title = "Detalle de usuario Bayer";
+    ViewBag.SubTitle = Model.NameDisplay;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">CWId</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.IdB</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Nombre</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.Name</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Apellido paterno</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.LastNameF</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Apellido materno</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.LastNameM</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Correo electr&oacute;nico</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.EMail</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="PhoneNumber" class="col-md-4 control-label">Tel&eacute;fono</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.PhoneNumber</p>
+            </div>
+        </div>
+        @if (!Model.User.IsInRoles("sysadmin,appadmin"))
+        {
+            <div class="form-group">
+                <label for="Folio" class="col-md-4 control-label">Zona(s)</label>
+                <div class="col-md-8">
+                    <p class="form-control">
+                        @foreach (Cat_Zone item in (List<Cat_Zone>)(ViewBag.EmployeeZones ?? new List<Cat_Zone>()))
+                        {
+                            <span>@item.Name, </span>
+                        }
+                    </p>
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Perfil</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.User.InRoleNames</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Person.User.Cat_UserStatus.Name" class="col-md-4 control-label">Estatus</label>
+            <div class="col-md-6">
+                <p id="statusText" class="form-control">
+                    @Model.User.Cat_UserStatus.Name
+                    @if (Model.User.Cat_UserStatus.IdB == "toconfirm")
+                    {
+                        <a href="/Administration/Employee/SendEmailInvitation/@Model.User.Id">Reenviar invitaci&oacute;n</a>
+                    }
+                </p>
+            </div>
+            @if(Model.User.Cat_UserStatusId == 1 || Model.User.Cat_UserStatusId == 3)
+            {
+            <div class="col-md-2">
+                @{string buttonText = Model.User.Cat_UserStatusId == 1 ? "Desactivar" : "Activar"; }
+                @{string actionName = Model.User.Cat_UserStatusId == 1 ? "UserDeactivate" : "UserActivate"; }
+                <button type="button" class="col-md-12 btn btn-primary" onclick="window.location.href = '/Administration/Employee/@actionName/@Model.Id'">@buttonText</button> 
+            </div>
+            }
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                &nbsp;<br />
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label"></label>
+            <div class="col-md-4">
+                <button type="button" class="btn btn-primary" onclick="window.location.href = '/Administration/Employee/Edit/@Model.Id';">Editar usuario</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href = '/Administration/Employee';">Regresar</button>
+            </div>
+            <div class="col-md-4 text-right">
+                <button type="button" class="btn btn-danger" onclick='if (confirm("¿Está seguro de que desea eliminar a este usuario?")) window.location.href = "/Administration/Employee/Delete/@Model.Id";'>Eliminar usuario</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section pageCSS{
+}
+@section pageScripts{
+}

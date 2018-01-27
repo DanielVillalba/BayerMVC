@@ -1,0 +1,82 @@
+﻿@model PSD.Web.Areas.Content.Models.ContactPageViewModel
+@{
+    ViewBag.Title = "Contacto";
+}
+
+@using (Html.BeginForm("Contact", "ContactPage", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-10", role = "form", onsubmit = "return ValidateForm()", name = "Create", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken();
+
+    <div class="form-group" id="grp">
+        <div class="col-md-6 col-md-offset-3">
+            @{var content = PSD.Web.Controllers._BaseWebController.GetContactPageContent();}
+            @Html.Raw(content)
+        </div>
+    </div>
+
+    <div class="form-group" id="grp">
+        <div class="col-md-6 col-md-offset-3">
+            <input type="text"
+                   class="form-control"
+                   name="Name"
+                   id="Name"
+                   value="@Model.Name"
+                   placeholder="Nombre"
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa tu nombre')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+
+    <div class="form-group" id="grp">
+        <div class="col-md-6 col-md-offset-3">
+            <input type="email"
+                   class="form-control"
+                   name="EMail"
+                   id="EMail"
+                   value="@Model.EMail"
+                   placeholder="Email"
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa una direccion de E-mail valida')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+
+    <div class="form-group" id="grp">
+        <div class="col-md-6 col-md-offset-3">
+            <textarea type="text"
+                   class="form-control"
+                   name="Message"
+                   id="Message"
+                   value="@Model.Message"
+                   placeholder="Mensaje"
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un mensaje')"
+                   oninput="setCustomValidity('')">
+            </textarea>
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <div class="col-md-6 col-md-offset-3">
+            <input type="checkbox" required name="terms"> Acepto los <a><span class="text-primary cursor-link">Terminos y Condiciones</span></a>
+        </div>
+        <div class="col-md-6 col-md-offset-3">
+            <input type="checkbox" required name="privacy"> Acepto el <a><span class="text-primary cursor-link">Aviso de privacidad</span></a>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-6 col-md-offset-3">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary col-md-12">Enviar</button>
+            @*<button type="button" class="btn btn-default" onclick="window.location='/';">Cancelar</button>*@
+        </div>
+    </div>
+}
+
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}

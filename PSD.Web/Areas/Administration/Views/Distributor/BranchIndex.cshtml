@@ -1,0 +1,72 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<DistributorBranch>
+
+@{
+    ViewBag.Title = "Indice de sucursales de distribuidor: ";
+    ViewBag.SubTitle = ViewBag.DistributorName;
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @if (Identity.CurrentUser.IsInRole("appadmin"))
+        {
+            <div class="text-right">
+                <button class="btn btn-link" onclick="BranchAdd(@ViewBag.DistributorId)">Crear nuevo</button>
+            </div>
+        }
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nombre</th>
+                    <th>Colonia</th>
+                    <th>Calle</th>
+                    <th>Numero Ext</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DistributorBranch item in Model)
+                {
+                    <tr>
+                        <td><a href="#/" class="no-parent-click" onclick="window.location = '/Administration/Distributor/BranchDetail/@item.Id';">@item.Id</a></td>
+                        <td>@item.Name</td>
+                        <td>@item.Address.AddressColony.Name</td>
+                        <td>@item.Address.Street</td>
+                        <td>@item.Address.NumberExt</td>
+                        <td class="text-center"><a href="/Administration/Distributor/BranchEdit/@item.Id" class=""><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                        <td class="text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/Administration/Distributor/BranchDelete/@item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"><!--glyphicon-remove--></span></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <button class="btn btn-info" onclick="distributorDetail(@ViewBag.DistributorId)">Regresar a detalle</button>
+        </div>
+    </div>
+</div>
+@*
+        @section pageControls{
+            Html.Partial("/[path]/[partial_name].cshtml", partial_model)
+    }
+*@
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+
+        function BranchAdd(id) {
+            window.location.href = '/Administration/Distributor/BranchAdd/' + id;
+        }
+
+        function distributorDetail(id) {
+            window.location.href = '/Administration/Distributor/DistributorDetail/' + id;
+        }
+
+    </script>
+}

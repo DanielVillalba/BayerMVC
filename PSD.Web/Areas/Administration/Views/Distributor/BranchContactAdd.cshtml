@@ -1,0 +1,113 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.DistributorBranchContact
+@{
+    ViewBag.Title = "Alta de contacto de sucursal";
+}
+
+@using (Html.BeginForm("BranchContactAdd", "Distributor", new { }, FormMethod.Post, new { @class = "form-horizontal col-md-6", role = "form", onsubmit = "return ValidateForm()", name = "BranchContactAdd" }))
+{
+    @Html.AntiForgeryToken()
+    <input type="hidden" class="form-control disabled" name="Id" id="Id" value="0" />
+    <input type="hidden" class="form-control disabled" name="DistributorBranchId" id="DistributorBranchId" value="@ViewBag.BranchId" />
+    <div class="form-group">
+        <label for="FullName" class="col-md-4 control-label">Nombre <span id="_lbFullname" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="FullName" id="FullName" value="@Model.FullName" required />
+        </div>
+    </div>
+    <div class="form-group" id="grpName">
+        <label for="Role" class="col-md-4 control-label">Puesto <span id="_lbRole" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="Role" id="Role" value="@Model.Role" required />
+        </div>
+    </div>
+    <div class="form-group" id="grpName">
+        <label for="EMail" class="col-md-4 control-label">Email <span id="_lbEMail" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-8">
+            <input type="email" class="form-control" name="EMail" id="EMail" value="@Model.EMail" required />
+        </div>
+    </div>
+    <div class="form-group" id="grpName">
+        <label for="PhoneNumber" class="col-md-4 control-label">Telefono fijo <span id="_lbPhoneNumber" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="PhoneNumber" id="PhoneNumber" value="@Model.PhoneNumber" />
+        </div>
+    </div>
+    <div class="form-group" id="grpName">
+        <label for="PhoneNumberExt" class="col-md-4 control-label">Telefono fijo - extension <span id="_lbPhoneNumberExt" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="PhoneNumberExt" id="PhoneNumberExt" value="@Model.PhoneNumberExt" />
+        </div>
+    </div>
+    <div class="form-group" id="grpName">
+        <label for="CellPhone" class="col-md-4 control-label">Telefono celular <span id="_lbCellPhone" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="CellPhone" id="CellPhone" value="@Model.CellPhone" />
+        </div>
+    </div>
+    <div class="form-group" id="grpName">
+        <label for="Cat_DistributorBranchContactAreaId" class="col-md-4 control-label">Area <span id="_lbCat_DistributorBranchContactAreaId" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-8">
+            @Html.DropDownList("Cat_DistributorBranchContactAreaId", PSD.Web.Controllers._BaseWebController.DistributorBranchContactAreas(), "Seleccionar...", new { @class = "multiselect" })
+        </div>
+    </div>
+
+    // Asisttant area   -- commented as per requirement
+    @*<div class="panel panel-default">
+        <div class="panel-heading">Asistente</div>
+        <div class="panel-body">
+            <div class="form-group" id="grpName">
+                <label for="AssistantFullName" class="col-md-4 control-label">Nombre <span id="_lbAssistantFullName" class="field-validation-error text-danger" style="display:none;">*</span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="AssistantFullName" id="AssistantFullName" value="@Model.AssistantFullName" />
+                </div>
+            </div>
+            <div class="form-group" id="grpName">
+                <label for="AssistantPhoneNumber" class="col-md-4 control-label">Telefono fijo <span id="_lbAssistantPhoneNumber" class="field-validation-error text-danger" style="display:none;">*</span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="AssistantPhoneNumber" id="AssistantPhoneNumber" value="@Model.AssistantPhoneNumber" />
+                </div>
+            </div>
+            <div class="form-group" id="grpName">
+                <label for="AssistantPhoneNumberExt" class="col-md-4 control-label">Telefono fijo - extension <span id="_lbAssistantPhoneNumberExt" class="field-validation-error text-danger" style="display:none;">*</span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="AssistantPhoneNumberExt" id="AssistantPhoneNumberExt" value="@Model.AssistantPhoneNumberExt" />
+                </div>
+            </div>
+            <div class="form-group" id="grpName">
+                <label for="AssistantCellPhone" class="col-md-4 control-label">Telefono celular <span id="_lbAssistantCellPhone" class="field-validation-error text-danger" style="display:none;">*</span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" name="AssistantCellPhone" id="AssistantCellPhone" value="@Model.AssistantCellPhone" />
+                </div>
+            </div>
+            <div class="form-group" id="grpName">
+                <label for="AssistantEMail" class="col-md-4 control-label">Email <span id="_lbAssistantEMail" class="field-validation-error text-danger" style="display:none;">*</span></label>
+                <div class="col-md-8">
+                    <input type="email" class="form-control" name="AssistantEMail" id="AssistantEMail" value="@Model.AssistantEMail" />
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="button" class="btn btn-default" onclick="addCancel(@ViewBag.BranchId)">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+
+        function addCancel(branchId) {
+            window.location.href = '/Administration/Distributor/BranchContactIndex/' + branchId;
+        }
+    </script>
+}

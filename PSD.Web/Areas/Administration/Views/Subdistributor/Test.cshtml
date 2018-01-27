@@ -1,0 +1,109 @@
+﻿@model PSD.Model.Subdistributor
+
+@{
+    ViewBag.Title = "Test";
+}
+
+<h2>Test</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Subdistributor</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IdB, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IdB)
+                @Html.ValidationMessageFor(model => model.IdB)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RTVCreator_BayerEmployeeId, "RTVCreator_BayerEmployeeId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RTVCreator_BayerEmployeeId", String.Empty)
+                @Html.ValidationMessageFor(model => model.RTVCreator_BayerEmployeeId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RTV_BayerEmployeeId, "RTV_BayerEmployeeId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("RTV_BayerEmployeeId", String.Empty)
+                @Html.ValidationMessageFor(model => model.RTV_BayerEmployeeId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Type)
+                @Html.ValidationMessageFor(model => model.Type)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BusinessName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BusinessName)
+                @Html.ValidationMessageFor(model => model.BusinessName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BNLegalRepresentative, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.BNLegalRepresentative)
+                @Html.ValidationMessageFor(model => model.BNLegalRepresentative)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BNAddressId, "BNAddressId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("BNAddressId", String.Empty)
+                @Html.ValidationMessageFor(model => model.BNAddressId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.WebSite, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.WebSite)
+                @Html.ValidationMessageFor(model => model.WebSite)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GeolocationLatitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GeolocationLatitude)
+                @Html.ValidationMessageFor(model => model.GeolocationLatitude)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.GeolocationLongitude, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.GeolocationLongitude)
+                @Html.ValidationMessageFor(model => model.GeolocationLongitude)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

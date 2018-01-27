@@ -1,0 +1,284 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{33E0F1EC-42DF-4F46-B980-ED39A20B00AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PSD.Model</RootNamespace>
+    <AssemblyName>PSD.Model</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="PSD.Common">
+      <HintPath>..\packages\Bin\PSD.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Address.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddressColony.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddressesXSubdistributor.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddressMunicipality.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddressPostalCode.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AddressState.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AppConfiguration.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BayerEmployee.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_ContractDistributorStatus.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_ContractSubdistributorStatus.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_Crop.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_CropCategory.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_DistributorBranchContactArea.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_DistributorContactArea.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_SubdistributorContactArea.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_UserRole.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_UserStatus.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Cat_Zone.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContentData.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContentLink.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractDistributor.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ContractSubdistributor.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Distributor.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributorBranch.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributorBranchContact.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributorContact.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributorCropsXMunicipality.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributorEmployee.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DistributorPurchasesXContractSubdistributor.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Extensions\Address.cs" />
+    <Compile Include="Extensions\ContractSubdistributor.cs" />
+    <Compile Include="Extensions\ContractDistributor.cs" />
+    <Compile Include="Extensions\Subdistributor.cs" />
+    <Compile Include="Extensions\Distributor.cs" />
+    <Compile Include="Extensions\DistributorEmployee.cs" />
+    <Compile Include="Extensions\BayerEmployee.cs" />
+    <Compile Include="Extensions\Person.cs" />
+    <Compile Include="Extensions\RolesXUser.cs" />
+    <Compile Include="Extensions\User.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\AssignedGRVFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\DistributorIdFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\DistributorIdListFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\ContractDistributorFilteringPipeline.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\RegisteredZoneNameFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\RegisteredZoneNameListFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\StateFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\StatusIdFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\StatusIdListFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractDistributorFilters\YearFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\AssignedGRVFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\ContractSubdistributorFilteringPipeline.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\RegisteredZoneNameFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\RegisteredZoneNameListFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\StateFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\StatusIdFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\StatusIdListFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\SubdistributorIdFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\SubdistributorIdListFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\ContractSubdistributorFilters\YearFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\DistributorFilters\DistributorFilteringPipeline.cs" />
+    <Compile Include="Filters\PipelineAndFilters\DistributorFilters\StateFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\DistributorFilters\ZoneFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\DistributorFilters\ZoneListFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\Interfaces\IFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\Interfaces\Pipeline.cs" />
+    <Compile Include="Filters\PipelineAndFilters\SubdistributorFilters\RelatedByActiveContractDistributorIdFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\SubdistributorFilters\SubdistributorFilteringPipeline.cs" />
+    <Compile Include="Filters\PipelineAndFilters\SubdistributorFilters\StateFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\SubdistributorFilters\ZoneFilter.cs" />
+    <Compile Include="Filters\PipelineAndFilters\SubdistributorFilters\ZoneListFilter.cs" />
+    <Compile Include="Keys\AppConfigurationKey.cs" />
+    <Compile Include="MunicipalitiesXEmployee.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="News.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="NewsSection.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Person.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PSDModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PSDModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PSDModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PSDModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>PSDModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="RolesXUser.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Subdistributor.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubdistributorCommercialName.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubdistributorContact.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubdistributorCropsXMunicipality.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubdistributorDiscountCoupon.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubdistributorEmployee.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SubdistributorPromotionCoupon.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>PSDModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="PSDModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>PSDModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="PSDModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PSDModel.Context.cs</LastGenOutput>
+      <DependentUpon>PSDModel.edmx</DependentUpon>
+    </None>
+    <None Include="PSDModel.edmx.diagram">
+      <DependentUpon>PSDModel.edmx</DependentUpon>
+    </None>
+    <None Include="PSDModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>PSDModel.cs</LastGenOutput>
+      <DependentUpon>PSDModel.edmx</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="PSDModel.edmx.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

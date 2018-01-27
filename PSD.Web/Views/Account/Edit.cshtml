@@ -1,0 +1,68 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.BayerEmployee
+@{
+    ViewBag.Title = "Editar mi cuenta";
+    ViewBag.SubTitle = Model.NameDisplay;
+}
+
+@using (Html.BeginForm("Edit", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-8", role = "form", onsubmit = "return ValidateForm()", name = "Edit" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    if (Identity.CurrentUser.IsInRole("appadmin,employee-manager_view,employee-manager_operation,employee-rtv_operation,employee-rtv_view"))
+    {
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">CWId</label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="IdB" id="IdB" value="@Model.IdB" placeholder="" />
+            </div>
+        </div>
+    }
+    <div class="form-group" id="grpPerson.Name">
+        <label for="Person.Name" class="col-md-4 control-label">Nombre <span id="_lblPerson.Name" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="Name" id="Name" value="@Model.Name" placeholder="Juan" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.LastNameF">
+        <label for="Person.LastNameF" class="col-md-4 control-label">Apellido paterno <span id="_lblPerson.LastNameF" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="LastNameF" id="LastNameF" value="@Model.LastNameF" placeholder="Perez" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.LastNameM">
+        <label for="Person.LastNameM" class="col-md-4 control-label">Apellido materno <span id="_lblPerson.LastNameM" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="LastNameM" id="LastNameM" value="@Model.LastNameM" placeholder="Perez" />
+        </div>
+    </div>
+    <div class="form-group" id="grpNickName">
+        <label for="NickName" class="col-md-4 control-label">Correo electr&oacute;nico <span id="_lblNickName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="EMail" id="EMail" value="@Model.EMail" placeholder="juan.perez@mail.com" validate-required />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.PhoneNumber">
+        <label for="Person.PhoneNumber" class="col-md-4 control-label">Tel&eacute;fono <span id="_lblValPerson.PhoneNumber" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="PhoneNumber" id="PhoneNumber" value="@Model.PhoneNumber" placeholder="55 1234 5678" validate-required />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/Account';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}

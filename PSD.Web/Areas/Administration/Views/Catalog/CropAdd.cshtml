@@ -1,0 +1,50 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.Cat_Crop
+@{
+    ViewBag.Title = "Alta de cultivo";
+}
+
+@using (Html.BeginForm("CropAdd", "Catalog", new { }, FormMethod.Post, new { @class = "form-horizontal col-md-6", role = "form", onsubmit = "return ValidateForm()", name = "CropAdd" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <div class="form-group">
+        <label for="IdB" class="col-md-4 control-label">Cultivo straco<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <select name="CropCategoryId" id="CropCategoryId" class="multiselect" onchange="">
+                <option value="-1">Seleccionar...</option>
+                @foreach (SelectListItem item in PSD.Web.Controllers._BaseWebController.CatCropCategories())
+                {
+                    <option value="@item.Value" @(Model.CropCategoryId.ToString() == item.Value? "selected" : "")>@item.Text</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group" id="grpName">
+        <label for="Name" class="col-md-4 control-label">Nombre de cultivo <span id="_lbName" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="Name" id="Name" value="@Model.Name" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/Administration/Catalog/CropIndex';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}
+
+
+
+

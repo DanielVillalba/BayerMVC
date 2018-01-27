@@ -1,0 +1,73 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<string>
+
+@{
+    ViewBag.Title = "Directorio";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin))
+        {
+            <div class="text-right">
+                <a href="/ContentManagement/Directory/Create">Crear nuevo</a>
+            </div>
+        }
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>&Aacute;rea</th>
+                    <th>Puesto</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (string item in new List<string>())
+                {
+                    <tr>
+                        <td><a href="/ContentManagement/Directory/Detail/item.Id">item.FullName</a></td>
+                        <td>item.Area</td>
+                        <td>item.Role</td>
+                        <td class="text-center"><a href="/ContentManagement/Directory/Edit/item.Id" class=""><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                        <td class="text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/ContentManagement/Directory/Delete/item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"><!--glyphicon-remove--></span></a></td>
+                    </tr>
+                }
+                <tr>
+                    <td><a href="/ContentManagement/Directory/Detail/item.Id">Maria del Mar</a></td>
+                    <td>Ventas</td>
+                    <td>Director Ventas</td>
+                    <td class="text-center"><a href="/ContentManagement/Directory/Edit/item.Id" class=""><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                    <td class="text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/ContentManagement/Directory/Delete/item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"><!--glyphicon-remove--></span></a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+
+        function ValidateForm() {
+            validInput = false;
+
+            if (true) {
+                validInput = true;
+            }
+
+            if (validInput)
+                return true;
+
+            return false;
+        }
+
+    </script>
+}

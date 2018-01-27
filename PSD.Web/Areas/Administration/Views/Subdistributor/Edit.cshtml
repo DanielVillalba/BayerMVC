@@ -1,0 +1,403 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model Subdistributor
+@{
+    ViewBag.Title = "Edición de Subdistribuidor/Agricultor";
+    ViewBag.SubTitle = Model.BusinessName;
+}
+
+@using (Html.BeginForm("Edit", "Subdistributor", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-10", role = "form", onsubmit = "return ValidateForm()", name = "Edit" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("postAction", "")
+    @Html.HiddenFor(x => x.Id)
+    <div class="form-group" id="grpIdB">
+        <label for="IdB" class="col-md-4 control-label">Id<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="IdB" id="IdB" value="@Model.IdB" readonly />
+        </div>
+    </div>
+    <div class="form-group" id="grpDistributor.CropId">
+        <label for="Distributor.CropId" class="col-md-4 control-label">Tipo <span id="_lblDistributor.CropId" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="hidden" id="Type" name="Type" value="@Model.Type" />
+            <select name="selectedType" id="selectedType" class="multiselect " validate-required>
+                <option value="-1">Seleccionar...</option>
+                <option value="Subdistribuidor" @(Model.Type == "Subdistribuidor" ? "selected" : "")>Subdistribuidor</option>
+                <option value="Agricultor" @(Model.Type == "Agricultor" ? "selected" : "")>Agricultor</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" id="grpDistributor.CropId">
+        <label for="" class="col-md-4 control-label">&Aacute;rea de influencia <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Estado</th>
+                        <th>Municipio</th>
+                        <th>Cultivos</th>
+                    </tr>
+                </thead>
+                @foreach (SubdistributorCropsXMunicipality item in Model.CropsXMunicipality)
+                {
+                    <tr>
+                        <td>
+                            @item.Municipality.State.Name
+                        </td>
+                        <td>
+                            @item.Municipality.Name
+                        </td>
+                        <td>
+                            @item.Crop.Name
+                        </td>
+                    </tr>
+
+                }
+            </table>
+        </div>
+        <div class="col-md-8 col-md-offset-4">
+            <select name="selectedAddressState" id="selectedAddressState" class="multiselect" onchange="Edit.postAction.value = 'getMunicipalities'; Edit.submit();">
+                <option value="-1">Seleccionar...</option>
+                @foreach (SelectListItem item in ViewBag.AddressStates)
+                {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text</option>
+                }
+            </select>
+            <select name="selectedMunicipalities" id="selectedMunicipalities" class="multiselect" multiple="multiple">
+                @if (ViewBag.AvailableMunicipalities != null)
+                {
+                    foreach (AddressMunicipality item in ViewBag.AvailableMunicipalities)
+                    {
+                        <option value="@item.Id">@item.Name</option>
+                    }
+                }
+            </select>
+            <select name="selectedCrops" id="selectedCrops" class="multiselect " multiple="multiple">
+                @foreach (SelectListItem item in PSD.Web.Controllers._BaseWebController.CatCrops())
+                {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text</option>
+                }
+            </select>
+            <button type="button" class="btn btn-info" onclick="Edit.postAction.value = 'addInfluence'; Edit.submit();">agregar</button>
+        </div>
+    </div>
+    <div class="form-group" id="grpDistributor.BusinessNames[0].Name">
+        <label for="Distributor.BusinessNames[0].Name" class="col-md-4 control-label">Raz&oacute;n Social<span id="_lblDistributor.BusinessNames[0].Name" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="BusinessName" id="BusinessName" value="@Model.BusinessName" />
+        </div>
+    </div>
+    <div class="form-group" id="grpDistributor.BusinessNames[1].Name">
+        <label for="Distributor.BusinessNames[1].Name" class="col-md-4 control-label">Representante legal<span id="_lblDistributor.BusinessNames[0].Name" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="BNLegalRepresentative" id="BNLegalRepresentative" value="@Model.BNLegalRepresentative" />
+        </div>
+    </div>
+    <div id="addressArea">
+        <div class="form-group">
+            <label for="postalCode" class="col-md-4 control-label">Codigo postal <span id="_lbpostalCode" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-2">
+                @{ var postalCodeText = Model.BNAddress.AddressColony != null ? Model.BNAddress.AddressColony.AddressPostalCode.Name : "";}
+                <input type="text" class="form-control" id="postalCode" placeholder="12345" value="@postalCodeText" required />
+                @Html.HiddenFor(x => x.BNAddressId)
+            </div>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-info" id="findPostalCode" onclick="GetAddressData('')">Buscar CP</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="state" class="col-md-4 control-label">Estado <span id="_lbstate" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="stateName" value="@(Model.BNAddress.AddressStateId != null ? PSD.Web.Controllers._BaseWebController.GetStateName(Model.BNAddress.AddressStateId) : "")" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="municipality" class="col-md-4 control-label">Municipio <span id="_lbmunicipality" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="municipalityName" value="@(Model.BNAddress.AddressMunicipalityId != null ? PSD.Web.Controllers._BaseWebController.GetMunicipalityName(Model.BNAddress.AddressMunicipalityId) : " ")" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="AddressColonyId" class="col-md-4 control-label">Colonia <span id="_lbAddressColonyId" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <select id="AddressColonyId" name="BNAddress.AddressColonyId" class="form-control">
+                    <option value="@Model.BNAddress.AddressColonyId">@(Model.BNAddress.AddressColony != null ? Model.BNAddress.AddressColony.Name : "")</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Street" class="col-md-4 control-label">Calle <span id="_lbStreet" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.BNAddress.Street, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="NumberExt" class="col-md-4 control-label">Numero exterior <span id="_lbNumberExt" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.BNAddress.NumberExt, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="NumberInt" class="col-md-4 control-label">Numero interior <span id="_lbNumberInt" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.BNAddress.NumberInt, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+    <div class="form-group" id="grpDistributor.BusinessNames[1].Name">
+        <label for="Distributor.BusinessNames[1].Name" class="col-md-4 control-label">Nombre(s) comercial(es)<span id="_lblDistributor.BusinessNames[0].Name" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <textarea class="form-control" name="selectedCommercialNames" id="selectedCommercialNames">
+                @{ int counter = 1;
+                 foreach (SubdistributorCommercialName item in Model.CommercialNames)
+                 {
+                    @item.Name@(counter++ < Model.CommercialNames.Count ? "/" : "")
+                 }
+                 }</textarea>
+            <span><small>separadas por '/'</small></span>
+            <!--<button type="button" class="btn btn-default" disabled>agregar otra</button>-->
+        </div>
+    </div>
+    <div class="form-group" id="grpNickName">
+        <label for="NickName" class="col-md-4 control-label">Sitio web <span id="_lblNickName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="WebSite" id="WebSite" value="@Model.WebSite" placeholder="www.misitio.com" />
+        </div>
+    </div>
+    <div class="form-group" id="grpNickName">
+        <label for="NickName" class="col-md-4 control-label">RTV asignado <span id="_lblNickName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            @if (Identity.CurrentUser.IsInRole("employee-rtv_operation"))
+            {
+                <input type="text" class="form-control" name="RTV_BayerEmployeeId" id="RTV_BayerEmployeeId" value="@Identity.CurrentUser.DisplayName" />
+            }
+            else
+            {
+                <select name="RTV_BayerEmployeeId" id="RTV_BayerEmployeeId" class="multiselect" onchange="">
+                    <option value="-1">Seleccionar...</option>
+                    @foreach (SelectListItem item in PSD.Web.Controllers._BaseWebController.Rtvs())
+                    {
+                        <option value="@item.Value" @(item.Value == Model.RTV_BayerEmployeeId.ToString() ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            }
+        </div>
+    </div>
+    <input type="hidden" name="SubdistributorEmployees[0].Id" id="SubdistributorEmployees[0].Id" value="@(Model.SubdistributorEmployees.Count > 0? Model.SubdistributorEmployees.FirstOrDefault().Id : 0)" />
+    <div class="form-group" id="grpNickName">
+        <label for="NickName" class="col-md-4 control-label">Correo electr&oacute;nico <span id="_lblNickName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="SubdistributorEmployees[0].EMail" id="SubdistributorEmployees[0].EMail" value="@(Model.SubdistributorEmployees.Count > 0? Model.SubdistributorEmployees.FirstOrDefault().EMail : "")" placeholder="nombre@mail.com" />
+        </div>
+    </div>
+    <div class="form-group" id="grpNickName">
+        <label for="NickName" class="col-md-4 control-label">Contactos <span id="_lblNickName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Puesto</th>
+                        <th>Telefono</th>
+                        <th>Celular</th>
+                        <th>E Mail</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (SubdistributorContact item in Model.SubdistributorContacts)
+                    {
+                        <tr>
+                            <td>@item.FullName</td>
+                            <td>@item.Role</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>@item.CellPhone</td>
+                            <td>@item.EMail</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <br />
+        </div>
+    </div>
+    <div id="additionalAddressesArea">
+        <hr />
+        @{ int index = 0;}
+        @foreach (AddressesXSubdistributor item in Model.Addresses)
+        {
+            <div id="addressArea">
+                <input type="hidden" name="Addresses[@index].Address.Id" value="@item.Address.Id" />
+                <div class="form-group">
+                    @{ int zoneNumber = index + 1;}
+                    <label for="postalCode" class="col-md-12 text-center">Direccion adicional numero @zoneNumber<span id="_lbpostalCode" class="field-validation-error text-danger" style="display:none;"></span></label>
+                </div>
+                <div class="form-group">
+                    <label for="postalCode" class="col-md-4 control-label">Codigo postal <span id="_lbpostalCode" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    <div class="col-md-2">
+                        <input type="hidden" id="AddressPostalCodeId_@index" name="Addresses[@index].Address.AddressPostalCodeId" value="@item.Address.AddressPostalCodeId" />
+                        @{ var postalCode = item.Address.AddressColony != null ? item.Address.AddressColony.AddressPostalCode.Name : "";}
+                        <input type="text" class="form-control" id="postalCode_@index" name="postalCode_@index" placeholder="12345" value="@postalCode" />
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-info" id="findPostalCode_@index" onclick="GetAddressData(@index)">Buscar CP</button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="state" class="col-md-4 control-label">Estado <span id="_lbstate" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    <div class="col-md-8">
+                        <input type="hidden" id="AddressStateId_@index" name="Addresses[@index].Address.AddressStateId" value="@item.Address.AddressStateId" />
+                        <input type="text" class="form-control" id="stateName_@index" value="@(item.Address.AddressStateId != null ? PSD.Web.Controllers._BaseWebController.GetStateName(item.Address.AddressStateId) : "")" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="municipality" class="col-md-4 control-label">Municipio <span id="_lbmunicipality" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    <div class="col-md-8">
+                        <input type="hidden" id="AddressMunicipalityId_@index" name="Addresses[@index].Address.AddressMunicipalityId" value="@item.Address.AddressMunicipalityId" />
+                        <input type="text" class="form-control" id="municipalityName_@index" value="@(item.Address.AddressMunicipalityId != null ? PSD.Web.Controllers._BaseWebController.GetMunicipalityName(item.Address.AddressMunicipalityId) : " ")" disabled />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="AddressColonyId" class="col-md-4 control-label">Colonia <span id="_lbAddressColonyId" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    <div class="col-md-8">
+                        <select id="AddressColonyId_@index" name="Addresses[@index].Address.AddressColonyId" class="form-control">
+                            <option value="@item.Address.AddressColonyId">@(item.Address.AddressColony != null ? item.Address.AddressColony.Name : "")</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Street" class="col-md-4 control-label">Calle <span id="_lbStreet" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="Addresses[@index].Address.Street" name="Addresses[@index].Address.Street" value="@item.Address.Street" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NumberExt" class="col-md-4 control-label">Numero exterior <span id="_lbNumberExt" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="Addresses[@index].Address.NumberExt" name="Addresses[@index].Address.NumberExt" value="@item.Address.NumberExt" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="NumberInt" class="col-md-4 control-label">Numero interior <span id="_lbNumberInt" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control" id="Addresses[@index].Address.NumberInt" name="Addresses[@index].Address.NumberInt" value="@item.Address.NumberInt" />
+                    </div>
+                </div>
+            </div>
+            index++;
+            <hr />
+        }
+    </div>
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary" onclick="Edit.postAction.value = 'updateSubdistributor';">Actualizar subdistribuidor/agricultor</button>
+            <button type="button" class="btn btn-default" onclick="window.location='/Administration/Subdistributor';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+
+        // executed by the button itself, it will pass an index used to identify the set of controllers that need to be populated
+        function GetAddressData(index) {
+            RetrievePostalCodeData(index);
+        }
+
+        // execute the AJAX call that brings the ZIP code data required to populate the specific address
+        function RetrievePostalCodeData(index) {
+
+            var processingPostalCode = index === '' ? '#postalCode' : '#postalCode_' + index;
+
+            var postalCode = $(processingPostalCode).val();
+
+            $.ajax({
+                type: "post",
+                url: "/Administration/Distributor/GetPostalCodeData",
+                data: { postalCode: postalCode },
+                success: function (receivedData) {
+                    console.log(receivedData);
+
+                    if (receivedData === 'ZIP code data Not Found') {
+                        AlertErrorMessage('Codigo postal incorrecto, intenta de nuevo porfavor !');
+                        $(processingPostalCode).focus();
+                        return 0;
+                    }
+
+                    // populate proper set of address
+                    if (index === '')
+                        PopulateBNAddress(receivedData);
+                    else
+                        PopulateAdditionalAddress(index, receivedData);
+
+                },
+                error: function () {
+                    AlertErrorMessage("Error al intentar encontrar la informacion del codigo postal.");
+                }
+            })
+
+        }
+
+        // populate the BN Address data controls
+        function PopulateBNAddress(postalCodeData) {
+            $('#AddressColonyId')
+                .find('option')
+                .remove()
+                .end();
+
+            for (var i = 0; postalCodeData.AvailableColonies && i < postalCodeData.AvailableColonies.length; i++) {
+                var option = document.createElement("option");
+                option.text = postalCodeData.AvailableColonies[i].Name;
+                option.value = postalCodeData.AvailableColonies[i].Id;
+                var select = document.getElementById("AddressColonyId");
+                select.appendChild(option);
+            }
+
+            $('#AddressMunicipalityId').val(postalCodeData.Address.AddressMunicipalityId);
+            $('#AddressPostalCodeId').val(postalCodeData.Address.AddressPostalCodeId);
+            $('#AddressStateId').val(postalCodeData.Address.AddressStateId);
+
+            $('#stateName').val(postalCodeData.StateName);
+            $('#municipalityName').val(postalCodeData.MunicipalityName);
+
+            console.log('BNAddress section loaded');
+        }
+
+        // populate the BN Address data controls
+        function PopulateAdditionalAddress(addressIndex, postalCodeData) {
+            $('#AddressColonyId_' + addressIndex)
+                .find('option')
+                .remove()
+                .end();
+
+            for (var i = 0; postalCodeData.AvailableColonies && i < postalCodeData.AvailableColonies.length; i++) {
+                var option = document.createElement("option");
+                option.text = postalCodeData.AvailableColonies[i].Name;
+                option.value = postalCodeData.AvailableColonies[i].Id;
+                var select = document.getElementById("AddressColonyId_" + addressIndex);
+                select.appendChild(option);
+            }
+
+            $('#AddressMunicipalityId_' + addressIndex).val(postalCodeData.Address.AddressMunicipalityId);
+            $('#AddressPostalCodeId_' + addressIndex).val(postalCodeData.Address.AddressPostalCodeId);
+            $('#AddressStateId_' + addressIndex).val(postalCodeData.Address.AddressStateId);
+
+            $('#stateName_' + addressIndex).val(postalCodeData.StateName);
+            $('#municipalityName_' + addressIndex).val(postalCodeData.MunicipalityName);
+
+
+            console.log('Additional section ' + addressIndex + ' loaded');
+        }
+
+    </script>
+}
+
+
+
+

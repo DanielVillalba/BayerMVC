@@ -1,0 +1,20 @@
+﻿@using PSD.Web.Controllers
+@model PSD.Model.ContractDistributor
+<div class="col-md-4">
+    <h4>Mi convenio actual</h4>
+    @if(Model != null)
+    {
+    <ul style="list-style-type:none; padding:0;">
+        <li>Convenio: <strong>@Model.IdB</strong></li>
+        <li>Meta: <strong>@PSD.Common.Strings.FormatCurrency(Model.AmountGoalTotal)</strong></li>
+        <li>Estatus: <strong>@Model.ContractDistributorStatus.Name</strong></li>
+        <li><a class="" href="/Contracts/MyDistributorContracts/Detail/@Model.Id">ver detalle <span class="glyphicon glyphicon-chevron-right"></span></a></li>
+    </ul>
+    }
+    else
+    { 
+        <p>sin convenio actual</p>
+    }
+</div>
+
+

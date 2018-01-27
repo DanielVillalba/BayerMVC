@@ -1,0 +1,26 @@
+﻿@using PSD.Web.Controllers
+<ul class="breadcrumb">
+    <li><a href="/">Inicio</a></li>
+    @{
+        string currentArea = (string)HttpContext.Current.Request.RequestContext.RouteData.DataTokens["area"];
+        string currentController = (string)HttpContext.Current.Request.RequestContext.RouteData.Values["controller"];
+        if (!string.IsNullOrWhiteSpace(currentArea))
+        {
+            if (ViewContext.RouteData.Values["controller"].ToString() != "Home")
+            {
+                <li><a href="/@currentArea">@_BaseWebController.GetAreaTitle(currentArea)</a></li>
+                if (ViewContext.RouteData.Values["action"].ToString() != "Index")
+                {
+                    <li><a href="/@currentArea/@currentController">@_BaseWebController.GetControllerTitle(currentArea, currentController)</a></li>
+
+                }
+            }
+            <li class="active">@ViewBag.Title @ViewBag.SubTitle</li>
+        }
+        else if (currentController != "Home")
+        {
+            <li class="active">@ViewBag.Title @ViewBag.SubTitle</li>
+        }
+    }
+</ul>
+

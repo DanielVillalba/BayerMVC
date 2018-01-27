@@ -1,0 +1,7 @@
+﻿@model List<PSD.Model.ContentLink>
+<ul>
+    @foreach(PSD.Model.ContentLink item in Model)
+    { 
+    <li><a href="http://@item.Url" target="_blank">@item.DisplayName</a></li>
+    }
+</ul>

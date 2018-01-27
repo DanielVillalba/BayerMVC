@@ -1,0 +1,24 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@using PSD.Web.Areas.Content.Controllers
+@model List<News>
+
+@{
+    ViewBag.Title = "Avisos y Promociones";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @foreach(News item in Model)
+        {
+            @Html.Partial("_NewsMiniature", item, new ViewDataDictionary { { "AreaRequest", "Content" } })
+        }
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+}

@@ -1,0 +1,83 @@
+﻿/*
+div {
+border: 1px solid red;margin:0; padding:0;
+}
+*/
+body {
+/*    padding-top: 50px;
+    padding-bottom: 20px;*/
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+/*    padding-left: 15px;
+    padding-right: 15px;*/
+}
+
+footer{
+    min-height:200px;
+    margin-top:50px;
+}
+h1, h2, h3, h4, h5, h6 {
+    color: #6bc200;
+    margin-top: 0;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    /*    max-width: 280px;*/
+}
+
+a {
+    color: #0090c5;
+    /*font-weight:bold;*/
+}
+
+.btn-primary {
+    background-color: #0090c5;
+    /*font-weight:bold;*/
+}
+
+.breadcrumb{
+    background-color: #f5f5f5;
+    margin-left:0;
+    padding:4px;
+}
+.breadcrumb a{
+    color: #6bc200;
+}
+
+/* styles for validation helpers */
+/*
+.field-validation-error {
+    color: #b94a48;
+}
+
+.field-validation-valid {
+    display: none;
+}
+
+input.input-validation-error {
+    border: 1px solid #b94a48;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}
+
+.validation-summary-errors {
+    color: #b94a48;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+*/
+
+.jumbotron {
+    /* add bootstrap jumbotron background image */
+    background: url("../Content/Media/Shared/Pictures/jumbotron.jpg") no-repeat center center;
+    background-size: 100% 100%;
+}

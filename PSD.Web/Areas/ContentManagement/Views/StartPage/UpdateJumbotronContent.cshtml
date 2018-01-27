@@ -1,0 +1,121 @@
+﻿@model PSD.Web.Areas.ContentManagement.Models.UpdateStartPageContentViewModel
+@{
+    ViewBag.Title = "Actualizar contenido de jumbotron";
+}
+
+@using (Html.BeginForm("UpdateJumbotronContent", "StartPage", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-12", role = "form", onsubmit = "return ValidateForm()", name = "Create", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-2 control-label">Titulo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control rich-text-editor"
+                   name="Title"
+                   id="Title"
+                   value=""
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un contenido para el jumbotron')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-2 control-label">Subtitulo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control rich-text-editor"
+                   name="Subtitle"
+                   id="Subtitle"
+                   value=""
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un contenido para el jumbotron')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-2 control-label">Parrafo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control rich-text-editor"
+                   name="Paragraph"
+                   id="Paragraph"
+                   value=""
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un contenido para el jumbotron')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-2 control-label">Boton<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control rich-text-editor"
+                   name="Button"
+                   id="Button"
+                   value=""
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un contenido para el jumbotron')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary" onclick="ValidateParagraphs()">Implementar contenido</button>
+            <button type="button" class="btn btn-default" onclick="window.location='/ContentManagement/StartPage/Index';">Cancelar</button>
+        </div>
+    </div>
+}
+
+@section pageCSS{
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+}
+
+@section pageScripts{
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+    <script type="text/javascript">
+
+        // Get all the html code from summernote
+        function ValidateParagraphs() {
+            $('#Title').val($('#Title').summernote('code'));
+            $('#Subtitle').val($('#Subtitle').summernote('code'));
+            $('#Paragraph').val($('#Paragraph').summernote('code'));
+            $('#Button').val($('#Button').summernote('code'));
+        }
+
+        function ValidateForm() {
+            return true;
+        }
+        $(document).ready(function () {
+            //https://summernote.org/deep-dive/#initialization-options
+            $('.rich-text-editor').summernote(
+                {
+                    placeholder: 'Capture la informacion de su parrafo aqui...'
+                    , fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New']
+                    , fontNamesIgnoreCheck: ['Merriweather']
+                    , toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['bold', 'italic', 'underline', 'clear', 'link']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']],
+                        ['code', ['codeview']]
+                    ]
+                }
+            );
+
+            // populate summernote textBoxes
+            $('#Title').summernote('code', '@Html.Raw(Model.Title)');
+            $('#Subtitle').summernote('code', '@Html.Raw(Model.Subtitle)');
+            $('#Paragraph').summernote('code', '@Html.Raw(Model.Paragraph)');
+            $('#Button').summernote('code', '@Html.Raw(Model.Button)');
+        });
+    </script>
+}

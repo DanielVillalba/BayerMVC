@@ -1,0 +1,63 @@
+﻿@using PSD.Security
+@using PSD.Model
+@using PSD.Controller
+@using PSD.Common
+@model int[,]
+@{
+    ViewBag.Title = "Tabla de Descuentos";
+}
+
+<div class="row">
+    <div class="col-md-9">
+        <div class="form-group" id="">
+            <div class="col-md-12">
+                <table class="table table-bordered text-right">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Limite inferior (&gt;=)</th>
+                            <th class="text-center">Limite superior (&lt;)</th>
+                            <th class="text-center">=</th>
+                            <th class="text-center">%Cupón (Antigüedad 0@*PSD.Common.Dates.Today.Year*@)</th>
+                            <th class="text-center">%Cupón (Antigüedad 1@*(PSD.Common.Dates.Today.Year - 1)*@)</th>
+                            <th class="text-center">%Cupón (Antigüedad 2@*(PSD.Common.Dates.Today.Year - 2)*@)</th>
+                        </tr>
+                    </thead>
+                    @for (int a = 0; a < 10; a++)
+                    {
+                        <tr>
+                            @for (int b = 0; b < 5; b++)
+                            {
+                                if (b == 2)
+                                {
+                                    <td></td>
+                                }
+                                <td>
+                                    <div class="input-group">
+                                        <p>@PSD.Common.Strings.FormatPercentage(Model[a, b])</p>
+                                    </div>
+                                </td>
+                            }
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label for="Folio" class="col-md-4 control-label"></label>-->
+            <div class="col-md-10">
+                <button type="button" class="btn btn-primary" onclick="window.location = '/BenefitProgramsManagement/Coupon/DiscountsEdit';">Editar</button>
+                <button type="button" class="btn btn-default" onclick="window.location = '/';">Regresar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+}

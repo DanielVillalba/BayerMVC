@@ -1,0 +1,179 @@
+﻿@using PSD.Security
+@using PSD.Model
+@using PSD.Controller
+@model PSD.Model.Subdistributor
+@{
+    ViewBag.Title = "Detalle de Subdistribuidor/Agricultor";
+    ViewBag.SubTitle = Model.BusinessName;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Id</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.IdB</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Razon social</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.BusinessName</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Nombre(s) comercial(es)</label>
+            <div class="col-md-8">
+                <textarea class="form-control" rows="4">
+                    @foreach (PSD.Model.SubdistributorCommercialName item in Model.CommercialNames)
+                    {
+                        @item.Name @(item.IsMain ? "(principal), " : ", ")                        
+                    }
+                </textarea>
+                <br />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Sitio Web</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.WebSite</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Direcci&oacute;n</label>
+            <div class="col-md-8">
+                <textarea class="form-control" rows="4">@(Model.BNAddress == null ? "" : Model.BNAddress.ToString())</textarea>
+                <br />
+            </div>
+        </div>
+        <!--        <div class="form-group">
+                    <label for="Folio" class="col-md-4 control-label">Localizaci&oacute;n geogr&aacute;fica</label>
+                    <div class="col-md-8">
+                        <p class="form-control">Longitud:[] Latitud:[]</p>
+                    </div>
+        </div>-->
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Perfil</label>
+            <div class="col-md-8">
+                <p class="form-control">@(Model.SubdistributorEmployees.Count > 0 ? Model.SubdistributorEmployees.FirstOrDefault().EMail : "")</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                &nbsp;<br />
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label"></label>
+            <div class="col-md-6">
+                @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeRTVOperation))
+                {
+                    <button type="button" class="btn btn-primary" onclick="window.location.href = '/Administration/Subdistributor/Edit/@Model.Id';">Editar</button>
+                }
+                @if (Identity.CurrentUser.IsInRole(UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeRTVOperation))
+                {
+                    if (Model.CurrentContract == null)
+                    {
+                        <button type="button" class="btn btn-info" onclick="window.location.href = '/Contracts/ToSubdistributor/Create/@Model.Id';">Crear convenio</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="btn btn-info" onclick="window.location.href = '/Contracts/ToSubdistributor/Detail/@Model.CurrentContract.Id';">Ver convenio actual</button>
+                    }
+
+                }
+                <button type="button" class="btn btn-default" onclick="window.location.href = '/Administration/Subdistributor';">Regresar</button>
+            </div>
+            <div class="col-md-2 text-right">
+                @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeRTVOperation))
+                {
+                    <button type="button" class="btn btn-danger" onclick="window.location.href = '/Administration/Subdistributor/SubdistributorDelete/@Model.Id';">Eliminar</button>
+                }
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                &nbsp;<br />
+
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">&Aacute;rea de influencia</label>
+            <div class="col-md-8">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Municipio</th>
+                            <th>Cultivos</th>
+                        </tr>
+                    </thead>
+                    @foreach (SubdistributorCropsXMunicipality item in Model.CropsXMunicipality)
+                    {
+                        <tr>
+                            <td>
+                                @item.Municipality.State.Name
+                            </td>
+                            <td>
+                                @item.Municipality.Name
+                            </td>
+                            <td>
+                                @item.Crop.Name
+                            </td>
+                        </tr>
+
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="SubdistributorContacts" class="col-md-4 control-label">Contactos</label>
+            <div class="col-md-8">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Telefono</th>
+                            <th>Celular</th>
+                            <th>E Mail</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (SubdistributorContact item in Model.SubdistributorContacts)
+                        {
+                            <tr>
+                                <td>@item.FullName</td>
+                                <td>@item.Role</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.CellPhone</td>
+                                <td>@item.EMail</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <br />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeRTVOperation))
+                {
+                    <button type="button" class="btn btn-info" onclick="contactCatalog(@Model.Id)">Editar contactos</button>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function contactCatalog(id) {
+            window.location.href = '/Administration/Subdistributor/ContactIndex/' + id;
+        }
+    </script>
+}

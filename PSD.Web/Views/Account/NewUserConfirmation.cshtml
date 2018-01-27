@@ -1,0 +1,59 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.User
+@{
+    ViewBag.Title = "Registro de usuario";
+    ViewBag.SubTitle = "Validación de cuenta";
+}
+
+@using (Html.BeginForm("NewUserConfirmation", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-6", role = "form", onsubmit = "return ValidateForm()", name = "NewUserConfirmation" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.NickName)
+    <div class="form-group" id="grpUserName">
+        <label for="UserName" class="col-lg-4 control-label">Email <span id="_lblValUserName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="UserName" id="UserName" value="@Model.NickName" readonly />
+        </div>
+    </div>
+    <div class="form-group" id="grpUserPassword">
+        <label for="UserPassword" class="col-lg-4 control-label">Contraseña <span id="_lblValUserPassword" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="password" class="form-control focus-on-load" name="UserPassword" id="UserPassword" placeholder="********" validate-required />
+        </div>
+    </div>
+    <div class="form-group" id="grpUserPasswordConfirm">
+        <label for="UserPasswordConfirm" class="col-lg-4 control-label">Confirma Contraseña <span id="_lblValUserPasswordConfirm" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="password" class="form-control" name="UserPasswordConfirm" id="UserPasswordConfirm" placeholder="********" validate-required />
+        </div>
+    </div>
+        <div class="form-group" id="grpUserRemember">
+        <label for="UserRemember" class="col-lg-4 control-label"></label>
+        <div class="col-lg-8 checkbox">
+            <label>
+                @Html.CheckBox("UserRemember", false) Acepto las <a href="#">pol&iacute;ticas de privacidad</a> y las <a href="#">pol&iacute;ticas de uso del sitio</a>
+            </label>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Registrar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}
+
+
+
+

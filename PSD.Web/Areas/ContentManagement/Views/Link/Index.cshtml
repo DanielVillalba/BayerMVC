@@ -1,0 +1,49 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<ContentLink>
+
+@{
+    ViewBag.Title = "Hipervínculos";
+
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @if (Identity.CurrentUser.IsInRole(PSD.Controller.UserRole.AppAdmin))
+        {
+            <div class="text-right">
+                <a href="/ContentManagement/Link/Add">Crear nuevo</a>
+            </div>
+        }
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Texto a mostrar</th>
+                    <th>URL</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ContentLink item in Model)
+                {
+                    <tr>
+                        <td>@item.DisplayName</td>
+                        <td>@item.Url</td>
+                        <td class="text-center"><a href="/ContentManagement/Link/Edit/@item.Id" class=""><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                        <td class="text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/ContentManagement/Link/Delete/@item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"><!--glyphicon-remove--></span></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}

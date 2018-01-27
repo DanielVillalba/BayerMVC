@@ -1,0 +1,165 @@
+﻿@using PSD.Security
+@using PSD.Model
+@using PSD.Controller
+@using PSD.Common
+@model PSD.Model.ContractDistributor
+@{
+    ViewBag.Title = "Detalle de convenio";
+    ViewBag.SubTitle = Model.IdB;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Id</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.IdB</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Estatus</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.ContractDistributorStatus.Name</p>
+            </div>
+        </div>
+        <div class="form-group" id="grpYear">
+            <label for="Year" class="col-md-4 control-label">Fecha de convenio<span id="_lblYear" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <p class="form-control">@PSD.Common.Strings.FormatDate(Model.ContractDate)</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="RegisteredZoneName" class="col-md-4 control-label">Regi&oacute;n registrada<span id="_lblRegisteredZoneName" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.RegisteredRegionName</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="RegisteredZoneName" class="col-md-4 control-label">Zona registrada<span id="_lblRegisteredZoneName" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.RegisteredZoneName</p>
+            </div>
+        </div>
+        <div class="form-group" id="">
+            <label for="" class="col-md-4 control-label">Meta<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <table class="table table-bordered text-center">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Periodo</th>
+                            <th class="text-center">Valor Bayer</th>
+                            <th class="text-center">Valor Distribuidor</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <td>
+                            <label for="IdB" class="control-label">Q1<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+                        </td>
+                        <td>
+                            <div class="input-group col-md-6">
+                                <p>@Strings.FormatCurrency(@Model.AmountGoalQ1Pre, true, true)</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group col-md-6">
+                                <p>@Strings.FormatCurrency(@Model.AmountGoalQ1, true, true)</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="IdB" class="control-label">Q2<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+                        </td>
+                        <td>
+                            <div class="input-group col-md-6">
+                                <p>@Strings.FormatCurrency(@Model.AmountGoalQ2Pre, true, true)</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group col-md-6">
+                                <p>@Strings.FormatCurrency(@Model.AmountGoalQ2, true, true)</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="IdB" class="control-label">Q3<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+                        </td>
+                        <td>
+                            <div class="input-group col-md-6">
+                                <p>@Strings.FormatCurrency(@Model.AmountGoalQ3Pre, true, true)</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group col-md-6">
+                                <p>@Strings.FormatCurrency(@Model.AmountGoalQ3, true, true)</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="IdB" class="control-label">Q4<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+                        </td>
+                        <td>
+                            <div class="input-group col-md-6">
+                                <p>@Strings.FormatCurrency(@Model.AmountGoalQ4Pre, true, true)</p>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="input-group col-md-6">
+                                <p>@Strings.FormatCurrency(@Model.AmountGoalQ4, true, true)</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tfoot>
+                        <tr>
+                            <td><label for="IdB" class="control-label">Meta<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label></td>
+                            <td>
+                                <div class="input-group col-md-6">
+                                    <p class="text-primary">@Strings.FormatCurrency(@Model.AmountGoalTotalPre, true, true)</p>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group col-md-6">
+                                    <p class="text-primary">@Strings.FormatCurrency(@Model.AmountGoalTotal, true, true)</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        @*
+            <div class="form-group" id="grpNickName">
+                <label for="GRVBayerEmployeeId" class="col-md-4 control-label">GRV asignado <span id="_lblGRVBayerEmployeeId" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-8">
+                    <p class="form-control">@Model.GRVBayerEmployee.NameDisplay</p>
+                </div>
+            </div>
+            <div class="form-group" id="grpRTVBayerEmployeeId">
+                <label for="RTVBayerEmployeeId" class="col-md-4 control-label">RTV asignado <span id="_lblRTVBayerEmployeeId" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-8">
+                    <p class="form-control">@Model.RTVBayerEmployee.NameDisplay</p>
+                </div>
+            </div>
+        *@
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label"></label>
+            <div class="col-md-8">
+                @if (Identity.CurrentUser.IsInRole(UserRole.CustomerDistributorOperation))
+                {
+                    if (Model.ContractDistributorStatus.IdB == "review-distributor" || Model.ContractDistributorStatus.IdB == "review-bayer")
+                    {
+                        <button type="button" class="btn btn-primary" onclick="window.location.href = '/Contracts/MyDistributorContracts/Approve/@Model.Id';" @(Model.ContractDistributorStatus.IdB == "review-distributor" ? "" : "disabled")>Aceptar convenio</button>
+                        <button type="button" class="btn btn-info" onclick="window.location.href = '/Contracts/MyDistributorContracts/Edit/@Model.Id';" @(Model.ContractDistributorStatus.IdB == "review-distributor" ? "" : "disabled")>Proponer nuevos montos</button>
+                    }
+                }
+                <button type="button" class="btn btn-default" onclick="window.location = '/Contracts/MyDistributorContracts';">Regresar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section pageCSS{
+}
+@section pageScripts{
+}

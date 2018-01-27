@@ -1,0 +1,258 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.DistributorEmployee
+@{
+    ViewBag.Title = "Editar mi perfil";
+}
+
+@using (Html.BeginForm("EditDistributorEmployee", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-10", role = "form", onsubmit = "return ValidateForm()", name = "EditDistributorEmployee" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("postAction", "")
+    @Html.HiddenFor(m => m.Id)
+    <div class="row">
+        <div class="form-group" id="grpDistributor.IdB">
+            <label for="Distributor.IdB" class="col-md-4 control-label">Id<span id="_lblDistributor.IdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="Distributor.IdB" id="Distributor.IdB" value="@Model.Distributor.IdB" readonly />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Perfil</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.User.InRoleNames</p>
+            </div>
+        </div>
+        <div class="form-group" id="grpDistributor.BusinessName">
+            <label for="Distributor.BusinessName" class="col-md-4 control-label">Raz&oacute;n Social<span id="_lblDistributor.BusinessName" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="Distributor.BusinessName" id="Distributor.BusinessName" value="@Model.Distributor.BusinessName" />
+            </div>
+        </div>
+        <div class="form-group" id="grpDistributor.CommercialName">
+            <label for="Distributor.CommercialName" class="col-md-4 control-label">Nombre comercial<span id="_lblDistributor.CommercialName" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="Distributor.CommercialName" id="Distributor.CommercialName" value="@Model.Distributor.CommercialName" />
+            </div>
+        </div>
+        <div id="addressArea">
+            <div class="form-group">
+                <label for="postalCode" class="col-md-4 control-label">Codigo postal <span id="_lbpostalCode" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-2">
+                    @{ var postalCodeText = Model.Distributor.Address.AddressColony.AddressPostalCode.Name ?? "";}
+                    <input type="text" class="form-control" id="postalCode" placeholder="12345" value="@postalCodeText" required />
+                    @Html.HiddenFor(x => x.Distributor.AddressId)
+                </div>
+                <div class="col-md-2">
+                    <button type="button" class="btn btn-info" id="findPostalCode">Buscar CP</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="state" class="col-md-4 control-label">Estado <span id="_lbstate" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="stateName" value="@PSD.Web.Controllers._BaseWebController.GetStateName(Model.Distributor.Address.AddressStateId)" disabled />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="municipality" class="col-md-4 control-label">Municipio <span id="_lbmunicipality" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="municipalityName" value="@PSD.Web.Controllers._BaseWebController.GetMunicipalityName(Model.Distributor.Address.AddressMunicipalityId)" disabled />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="AddressColonyId" class="col-md-4 control-label">Colonia <span id="_lbAddressColonyId" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-8">
+                    <select id="AddressColonyId" name="Distributor.Address.AddressColonyId" class="form-control">
+                        <option value="@Model.Distributor.Address.AddressColonyId">@Model.Distributor.Address.AddressColony.Name</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="Street" class="col-md-4 control-label">Calle <span id="_lbStreet" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Distributor.Address.Street, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="NumberExt" class="col-md-4 control-label">Numero exterior <span id="_lbNumberExt" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Distributor.Address.NumberExt, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="NumberInt" class="col-md-4 control-label">Numero interior <span id="_lbNumberInt" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Distributor.Address.NumberInt, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="form-group" id="grpDistributor.CropId">
+            <label for="Distributor.CropId" class="col-md-4 control-label">&Aacute;rea de influencia <span id="_lblDistributor.CropId" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Municipio</th>
+                            <th>Cultivos</th>
+                        </tr>
+                    </thead>
+                    @foreach (DistributorCropsXMunicipality item in Model.Distributor.CropsXMunicipality)
+                    {
+                        <tr>
+                            <td>
+                                @item.Municipality.State.Name
+                            </td>
+                            <td>
+                                @item.Municipality.Name
+                            </td>
+                            <td>
+                                @item.Crop.Name
+                            </td>
+                        </tr>
+
+                    }
+                </table>
+            </div>
+            <div class="col-md-8 col-md-offset-4">
+                <select name="selectedAddressState" id="selectedAddressState" class="multiselect" onchange="EditDistributorEmployee.postAction.value = 'getMunicipalities'; EditDistributorEmployee.submit();">
+                    <option value="-1">Seleccionar...</option>
+                    @foreach (SelectListItem item in ViewBag.AddressStates)
+                    {
+                        <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+                <select name="selectedMunicipalities" id="selectedMunicipalities" class="multiselect" multiple="multiple">
+                    @if (ViewBag.AvailableMunicipalities != null)
+                    {
+                        foreach (AddressMunicipality item in ViewBag.AvailableMunicipalities)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+                <select name="selectedCrops" id="selectedCrops" class="multiselect " multiple="multiple">
+                    @foreach (SelectListItem item in PSD.Web.Controllers._BaseWebController.CatCrops())
+                    {
+                        <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+                <button type="button" class="btn btn-default" onclick="EditDistributorEmployee.postAction.value = 'addInfluence'; EditDistributorEmployee.submit();">agregar</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="DistributorContacts" class="col-md-4 control-label">Contactos</label>
+            <div class="col-md-8">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Telefono</th>
+                            <th>Celular</th>
+                            <th>E Mail</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DistributorContact item in Model.Distributor.DistributorContacts)
+                        {
+                            <tr>
+                                <td>@item.FullName</td>
+                                <td>@item.Role</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.CellPhone</td>
+                                <td>@item.EMail</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type="button" class="btn btn-info col-md-offset-4" onclick="navigateToDistributorContactIndex(@Model.Distributor.Id)">Editar contactos</button>
+        <div class="form-group">
+            <div class="col-md-12">
+                &nbsp;<br />
+
+            </div>
+        </div>
+        <div class="form-group" id="grpDistributor.WebSite">
+            <label for="Distributor.WebSite" class="col-md-4 control-label">Sitio Web <span id="_lblDistributor.WebSite" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="Distributor.WebSite" id="Distributor.WebSite" value="@Model.Distributor.WebSite" />
+            </div>
+        </div>
+        <div class="form-group" id="grpNickName">
+            <label for="NickName" class="col-md-4 control-label">Correo electr&oacute;nico (usuario principal) <span id="_lblNickName" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="EMail" id="EMail" value="@Model.EMail" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10 col-md-offset-4">
+                @Html.ValidationSummary()
+                <button type="submit" class="btn btn-primary" onclick="EditDistributorEmployee.postAction.value = 'updateDistributor';">Guardar</button>
+                <button type="button" class="btn btn-default" onclick="window.location.href = '/';">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+        $('#findPostalCode').click(function () {
+
+            var postalCode = $('#postalCode').val();;
+
+            $.ajax({
+                type: "post",
+                url: "/Administration/Distributor/GetPostalCodeData",
+                data: { postalCode: postalCode },
+                success: function (receivedData) {
+                    console.log(receivedData);
+
+                    if (receivedData === 'ZIP code data Not Found') {
+                        AlertErrorMessage('Codigo postal no encontrado');
+                        $('#postalCode').focus();
+                        return 0;
+                    }
+
+                    $('#AddressColonyId')
+                        .find('option')
+                        .remove()
+                        .end();
+
+                    for (var i = 0; receivedData.AvailableColonies && i < receivedData.AvailableColonies.length; i++) {
+                        var option = document.createElement("option");
+                        option.text = receivedData.AvailableColonies[i].Name;
+                        option.value = receivedData.AvailableColonies[i].Id;
+                        var select = document.getElementById("AddressColonyId");
+                        select.appendChild(option);
+                    }
+
+                    $('#AddressMunicipalityId').val(receivedData.Address.AddressMunicipalityId);
+                    $('#AddressPostalCodeId').val(receivedData.Address.AddressPostalCodeId);
+                    $('#AddressStateId').val(receivedData.Address.AddressStateId);
+
+                    $('#stateName').val(receivedData.StateName);
+                    $('#municipalityName').val(receivedData.MunicipalityName);
+
+                },
+                error: function () {
+                    AlertErrorMessage("Error al intentar encontrar la informacion del codigo postal.");
+                }
+            })
+        });
+        function navigateToDistributorContactIndex(distributorId) {
+            window.location.href = '/Administration/Distributor/ContactIndex/' + distributorId;
+        }
+    </script>
+}
+
+
+
+

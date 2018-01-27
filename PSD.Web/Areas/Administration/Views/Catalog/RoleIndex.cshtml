@@ -1,0 +1,41 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<Cat_UserRole>
+
+@{
+    ViewBag.Title = "Catálogo de roles";
+
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th class="text-center">Editar</th>
+                    @*<th>Eliminar</th>*@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Cat_UserRole item in Model)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td class="text-center"><a href="/Administration/Catalog/RoleEdit/@item.Id" class=""><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}

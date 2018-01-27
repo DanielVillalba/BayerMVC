@@ -1,0 +1,23 @@
+﻿@using PSD.Web.Areas.Content.Controllers
+@model PSD.Model.NewsSection
+
+<br />
+<br />
+<div class="container col-md-12">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <img src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.Image)" class="pull-left gap-right img-responsive" />
+            </div>
+            <div class="row">
+                <div class="text text-left">
+                    <strong>@Model.ImageFooter</strong>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            @Html.Raw(HttpUtility.HtmlDecode(Model.Paragraph))
+        </div>
+    </div>
+</div>
+<br />

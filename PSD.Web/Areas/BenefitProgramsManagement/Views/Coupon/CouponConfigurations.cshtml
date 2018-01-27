@@ -1,0 +1,51 @@
+﻿@using PSD.Security
+@model PSD.Web.Areas.BenefitProgramsManagement.Models.CouponConfigurationsModel
+@{
+    ViewBag.Title = "Configuraciones";
+}
+
+<div class="form-group">
+    <label for="" class="col-md-2 control-label">Ciclo abierto<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+    <div class="col-md-10">
+        <label class="checkbox-inline">
+            <input type="checkbox" data-toggle="toggle" data-onstyle="default" @(Model.IsOpen ? "checked" : "") disabled>
+        </label>
+        <span class="input-group-sm text-muted">Mientras esta activo, los convenios del año estar&aacute;n activos. Esta configuraci&oacute;n pasa de encendido a apagado cuando se procesan los cupones del a&ntilde;o en curso.</span>
+    </div>
+</div>
+<div class="form-group">&nbsp;</div>
+<div class="form-group">
+    <label for="" class="col-md-2 control-label">Semestre 1 <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+    <div class="col-md-10">
+        <label class="checkbox-inline">
+            <input type="checkbox" id="S1IsOpen" data-toggle="toggle" @(Model.S1IsOpen ? "checked" : "") @(Model.IsOpen & !Model.S1IsCalculated ? "" : "disabled")>
+        </label>
+        <span class="input-group-sm text-muted">Mientras esta activo, los distribuidores podr&aacute;n registrar y editar las compras de sus participantes para el primer semestre.</span>
+    </div>
+</div>
+<div class="form-group">&nbsp;</div>
+<div class="form-group">
+    <label for="" class="col-md-2 control-label">Semestre 2 <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+    <div class="col-md-10">
+        <input type="checkbox" id="S2IsOpen" data-toggle="toggle" @(Model.S2IsOpen ? "checked" : "") @(Model.IsOpen & !Model.S2IsCalculated ? "" : "disabled")>
+        <span class="input-group-sm text-muted">Mientras esta activo, los distribuidores podr&aacute;n registrar y editar las compras de sus participantes para el segundo semestre.</span>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <link href="/Content/Components/ToggleCheckbox/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="/Content/Components/ToggleCheckbox/bootstrap-toggle.min.js"></script>
+    <script>
+        $(function () {
+            $('#S1IsOpen').change(function () {
+                window.location.href = '/BenefitProgramsManagement/Coupon/@(Model.S1IsOpen ? "CouponConfigurations_S1IsOpen_TurnOff" : "CouponConfigurations_S1IsOpen_TurnOn")';
+            });
+            $('#S2IsOpen').change(function () {
+                window.location.href = '/BenefitProgramsManagement/Coupon/@(Model.S2IsOpen ? "CouponConfigurations_S2IsOpen_TurnOff" : "CouponConfigurations_S2IsOpen_TurnOn")';
+            });
+        })
+    </script>
+}
+

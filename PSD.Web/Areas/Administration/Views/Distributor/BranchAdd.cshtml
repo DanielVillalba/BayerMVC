@@ -1,0 +1,180 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.DistributorBranch
+@{
+    ViewBag.Title = "Alta de sucursal de distribuidor: ";
+    ViewBag.SubTitle = ViewBag.DistributorName;
+}
+
+@using (Html.BeginForm("BranchAdd", "Distributor", FormMethod.Post, new { @class = "form-horizontal col-md-6", role = "form", onsubmit = "return ValidateForm()", name = "BranchAdd" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("postAction", "")
+    <input type="hidden" class="form-control disabled" name="Id" id="Id" value="0" />
+    <input type="hidden" class="form-control disabled" name="DistributorId" id="DistributorId" value="@ViewBag.DistributorId" />
+    <div class="form-group">
+        <label for="FullName" class="col-md-4 control-label">Nombre <span id="_lbFullname" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="Name" id="Name" value="@Model.Name" required />
+        </div>
+    </div>
+
+    // address area
+    <div id="addressArea">
+        <div class="form-group">
+            <label for="postalCode" class="col-md-4 control-label">Codigo postal <span id="_lbpostalCode" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @{ 
+                    string postalCode = string.Empty;
+                    string postalCodeId = "0";
+                    if(Model.Address != null && Model.Address.AddressPostalCodeId.HasValue)
+                    {
+                        postalCodeId = Model.Address.AddressPostalCodeId.Value.ToString();
+                        postalCode = PSD.Web.Controllers._BaseWebController.GetPostalCodeData(Model.Address.AddressPostalCodeId).Name;
+                    }
+                }
+                <input type="hidden" class="form-control disabled" name="Address.AddressPostalCodeId" id="AddressPostalCodeId" value="@postalCodeId" />
+                <input type="text" class="form-control" id="postalCode" value="@postalCode" required />
+                <button type="button" class="btn btn-info col-md-5" id="findPostalCode">buscar colonias</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="state" class="col-md-4 control-label">Estado <span id="_lbstate" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @{ 
+                    string stateName = string.Empty;
+                    string stateId = "0";
+                    if (Model.Address != null && Model.Address.AddressStateId.HasValue)
+                    {
+                        stateId = Model.Address.AddressStateId.Value.ToString();
+                        stateName = PSD.Web.Controllers._BaseWebController.GetStateName(Model.Address.AddressStateId);
+                    }
+                }
+                <input type="hidden" class="form-control disabled" name="Address.AddressStateId" id="AddressStateId" value="@stateId" />
+                <input type="text" class="form-control" id="stateName" value="@stateName" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="municipality" class="col-md-4 control-label">Municipio <span id="_lbmunicipality" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @{
+                    string municipalityName = string.Empty;
+                    string municipalityId = "0";
+                    if (Model.Address != null && Model.Address.AddressMunicipalityId.HasValue)
+                    {
+                        municipalityId = Model.Address.AddressMunicipalityId.Value.ToString();
+                        municipalityName = PSD.Web.Controllers._BaseWebController.GetMunicipalityName(Model.Address.AddressMunicipalityId);
+                    }
+                }
+                <input type="hidden" class="form-control disabled" name="Address.AddressMunicipalityId" id="AddressMunicipalityId" value="@municipalityId" />
+                <input type="text" class="form-control" id="municipalityName" value="@municipalityName" disabled />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="AddressColonyId" class="col-md-4 control-label">Colonia <span id="_lbAddressColonyId" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @{
+                    string colonyName = string.Empty;
+                    string colonyId = "0";
+                    if (Model.Address != null && Model.Address.AddressColonyId.HasValue)
+                    {
+                        colonyId = Model.Address.AddressColonyId.Value.ToString();
+                        colonyName = PSD.Web.Controllers._BaseWebController.GetColonyName(Model.Address.AddressColonyId);
+                    }
+                }
+                <select id="AddressColonyId" name="Address.AddressColonyId" class="form-control" >
+                    <option value="@colonyId">@colonyName</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Street" class="col-md-4 control-label">Calle <span id="_lbStreet" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Address.Street, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="NumberExt" class="col-md-4 control-label">Numero exterior <span id="_lbNumberExt" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Address.NumberExt, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="NumberInt" class="col-md-4 control-label">Numero interior <span id="_lbNumberInt" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Address.NumberInt, new { @class = "form-control" })
+            </div>
+        </div>
+    </div>
+
+    // Contact area, check how to add Contacts at this point
+
+
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary" id="saveButton" >Crear</button>
+            <button type="button" class="btn btn-default" onclick="addCancel(@ViewBag.DistributorId)">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+
+        function ValidateForm() {
+            return true;
+        }
+
+        function addCancel(distributorId) {
+            window.location.href = '/Administration/DIstributor/BranchIndex/' + distributorId;
+        }
+
+        $('#findPostalCode').click(function () {
+
+            var postalCode = $('#postalCode').val();;
+
+            $.ajax({
+                type: "post",
+                url: "/Administration/Distributor/GetPostalCodeData",
+                data: { postalCode: postalCode },
+                success: function (receivedData) {
+                    console.log(receivedData);
+
+                    if (receivedData === 'ZIP code data Not Found') {
+                        AlertErrorMessage('Codigo postal incorrecto, intenta de nuevo porfavor !');
+                        $('#postalCode').focus();
+                        return 0;
+                    }
+
+                    $('#AddressColonyId')
+                        .find('option')
+                        .remove()
+                        .end();
+
+                    for (var i = 0; receivedData.AvailableColonies && i < receivedData.AvailableColonies.length; i++) {
+                        var option = document.createElement("option");
+                        option.text = receivedData.AvailableColonies[i].Name;
+                        option.value = receivedData.AvailableColonies[i].Id;
+                        var select = document.getElementById("AddressColonyId");
+                        select.appendChild(option);
+                    }
+                    $('#AddressColonyId').removeAttr('disabled');
+
+                    $('#AddressMunicipalityId').val(receivedData.Address.AddressMunicipalityId);
+                    $('#AddressPostalCodeId').val(receivedData.Address.AddressPostalCodeId);
+                    $('#AddressStateId').val(receivedData.Address.AddressStateId);
+
+                    $('#stateName').val(receivedData.StateName);
+                    $('#municipalityName').val(receivedData.MunicipalityName);
+
+                },
+                error: function () {
+                    AlertErrorMessage("Error al intentar encontrar la informacion del codigo postal.");
+                }
+            })
+        });
+
+    </script>
+}

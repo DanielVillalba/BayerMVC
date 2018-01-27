@@ -1,0 +1,73 @@
+﻿@using PSD.Model
+@using PSD.Security
+@*model PSD.Model.ContractDistributor*@
+@{
+    ViewBag.Title = "Alta de empleado en directorio";
+}
+
+@using (Html.BeginForm("Create", "Directory", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-10", role = "form", onsubmit = "return ValidateForm()", name = "Create" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Fotograf&iacute;a<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="file" class="file-input" name="" id="" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Nombre completo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="" id="" value="" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">&Aacute;rea<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="" id="" value="" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Puesto<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="" id="" value="" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Tel&eacute;fono<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="" id="" value="" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Extensi&oacute;n<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="" id="" value="" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Correo electr&oacute;nico<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control rich-text-editor" name="" id="" value="" placeholder="" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Crear</button>
+            <button type="button" class="btn btn-default" onclick="window.location='/ContentManagement/Directory';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}
+
+
+
+

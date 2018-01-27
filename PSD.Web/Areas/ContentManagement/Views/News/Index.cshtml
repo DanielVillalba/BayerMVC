@@ -1,0 +1,65 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<News>
+
+
+@{
+    ViewBag.Title = "Avisos y promociones";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @if (Identity.CurrentUser.IsInRole("appadmin"))
+        {
+            <div class="text-right">
+                <a href="/ContentManagement/News/Create">Crear nuevo</a>
+            </div>
+        }
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Imagen Principal</th>
+                    <th>URL Id</th>
+                    <th>T&iacute;tulo</th>
+                    <th>Publicada</th>
+                    <th>Detalle</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (News item in Model)
+                {
+                    <tr>
+                        <td class="col-md-2">
+                            <div class="img-thumbnail col-md-12">
+                                <img src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @item.Image)" class="pull-left gap-right img-responsive" style="max-width:200px; max-height: 40px" />
+                            </div>
+                        </td>
+                        <td><span class="text-primary">@item.URLId</span></td>
+                        <td><span class="">@item.Title</span></td>
+                        <td class="col-md-1 text-center">@Html.CheckBoxFor(model => item.IsPublished, new { @disabled = "disabled" })</td>
+                        <td class="col-md-1 text-center"><a href="/ContentManagement/News/Detail/@item.URLId" class=""><span class="glyphicon glyphicon-picture" aria-hidden="true"></span></a></td>
+                        <td class="col-md-1 text-center"><a href="/ContentManagement/News/Edit/@item.Id" class=""><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                        <td class="col-md-1 text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/ContentManagement/News/Delete/@item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"><!--glyphicon-remove--></span></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@*
+        @section pageControls{
+            Html.Partial("/[path]/[partial_name].cshtml", partial_model)
+    }
+*@
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}

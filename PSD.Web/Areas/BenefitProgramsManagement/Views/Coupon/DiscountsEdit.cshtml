@@ -1,0 +1,62 @@
+﻿@using PSD.Security
+@using PSD.Model
+@using PSD.Controller
+@using PSD.Common
+@model int[,]
+@{
+    ViewBag.Title = "Editar Tabla de Descuentos";
+}
+
+@using (Html.BeginForm("DiscountsEdit", "Coupon", new { }, FormMethod.Post, new { @class = "form-horizontal col-md-12", role = "form", onsubmit = "return ValidateForm()", name = "DiscountsEdit" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group col-md-8">
+        <!--<label for="" class="col-md-4 control-label">label <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>-->
+        <table class="table table-bordered text-right">
+            <thead>
+                <tr>
+                    <th class="text-center">Limite inferior (&gt;=)</th>
+                    <th class="text-center">Limite superior (&lt;)</th>
+                    <th class="text-center">=</th>
+                    <th class="text-center">%Cupón (Antigüedad 0@*PSD.Common.Dates.Today.Year*@)</th>
+                    <th class="text-center">%Cupón (Antigüedad 1@*(PSD.Common.Dates.Today.Year - 1)*@)</th>
+                    <th class="text-center">%Cupón (Antigüedad 2@*(PSD.Common.Dates.Today.Year - 2)*@)</th>
+                </tr>
+            </thead>
+            @for (int a = 0; a < 10; a++)
+            {
+                <tr>
+                    @for (int b = 0; b < 5; b++)
+                    {
+                        if (b == 2)
+                        {
+                            <td></td>
+                        }
+                        <td>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="model[@a][@b]" id="model[@a][@b]" value="@Model[a, b]" placeholder="" />
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }            
+        </table>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/BenefitProgramsManagement/Coupon/DiscountsDetail';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}

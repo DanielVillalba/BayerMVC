@@ -1,0 +1,238 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.Cat_Zone
+@{
+    ViewBag.Title = "Alta de zona";
+}
+
+@using (Html.BeginForm("ZoneAdd", "Catalog", new { }, FormMethod.Post, new { @class = "form-horizontal col-md-10", role = "form", onsubmit = "return ValidateForm()", name = "ZoneAdd", id = "ZoneAddForm"}))
+{
+    @Html.AntiForgeryToken()
+    @*@Html.HiddenFor(x => x.Id)*@
+    <div class="form-group" id="grpName">
+        <label for="Name" class="col-md-4 control-label">Nombre de la zona <span id="_lbName" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="Name" id="Name" value="@Model.Name" required />
+        </div>
+    </div>
+    <div class="form-group" id="grpName">
+        <label for="Region" class="col-md-4 control-label">Region <span id="_lbName" class="field-validation-error text-danger" style="display:none;">*</span></label>
+        <div class="col-md-2">
+            <input type="text" class="form-control" name="RegionName" id="RegionName" value="@Model.RegionName" required />
+        </div>
+    </div>
+    // municipios
+    <div class="col-md-12">
+        <div class="col-md-12">
+            <label for="Municipality" class="col-md-6 control-label">Detalle de municipios <span id="_lblMunicipality" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <table id="tableSelectedMunicipalities" class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Municipio</th>
+                        <th>Estado</th>
+                        <th>Quitar</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-12">
+            <select name="selectedAddressState" id="selectedAddressState" class="multiselect" onchange="getMunicipalityData()">
+                <option value="-1">Seleccionar...</option>
+                @foreach (SelectListItem item in ViewBag.AddressStates)
+                {
+                    <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text</option>
+                }
+            </select>
+            <select id="municipalityDropdown" class="multiselect" multiple="multiple">
+                <option value="-1">Seleccionar...</option>
+            </select>
+            <button type="button" class="btn btn-default" onclick="addNewMunicipality()">agregar</button>
+        </div>
+    </div>
+    <br/>
+    <br/>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-4">
+            @Html.ValidationSummary()
+            <button type="button" class="btn btn-primary" onclick="saveData()">Crear</button>
+            <button type="button" class="btn btn-default" onclick="addCancel()">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+
+        var municipalitiesData = [];
+        var municipalitiesDataToSend = [];
+
+        // OnReady
+        $(function () {
+            clearMunicipalitiesData();
+            clearMunicipalitiesDataToSend();
+        });
+
+        function ValidateForm() {
+            return true;
+        }
+
+        function addCancel() {
+            window.location.href = '/Administration/Catalog/ZoneIndex';
+        }
+
+        function saveData() {
+
+            if (!$('#Name').val()) {
+                AlertErrorMessage('Por favor introduce un nombre.');
+                return 0;
+            }
+
+            // region name validation
+            if (!$('#RegionName').val()) {
+                AlertErrorMessage('Por favor introduce un nombre de region.');
+                return 0;
+            }
+
+            var regionName = $('#RegionName').val();
+            if (regionName.length > 1 || !$.isNumeric(regionName)) {
+                AlertErrorMessage('Por favor introduce un nombre de region numerico y de un digito.');
+                return 0;
+            }
+
+            // serializing to Cat_Zone object type
+            var data = {
+                Name: $('#Name').val(),
+                RegionName: regionName,
+                AddressMunicipalities: municipalitiesDataToSend
+            };
+
+            var form = $('#ZoneAddForm');
+            var token = $('input[name="__RequestVerificationToken"]', form).val();
+
+            $.ajax({
+                type: "post",
+                url: "/Administration/Catalog/ZoneAdd",
+                data: {
+                    __RequestVerificationToken: token,
+                    data: JSON.stringify(data)
+                },
+                success: function (receivedData) {
+                    console.log(receivedData);
+                    window.location.href = '/Administration/Catalog/ZoneIndex'; // regardless with http 200 result we navigate to Index
+                },
+                error: function () {
+                    AlertErrorMessage("Error.");
+                }
+            })
+        }
+
+        // add new municipality data to the table
+        function addNewMunicipality() {
+
+            // retrieve selected municipalities
+            var selectedValues = $('#municipalityDropdown').val();
+
+            var currentState = $('#selectedAddressState :selected').text();
+
+            for (var i = 0; i < selectedValues.length; i++) {
+                var evalutingId = selectedValues[i];
+
+                // validate duplicated
+                if ( !duplicated(evalutingId) ) {
+                    // adding to be send to controller
+                    municipalitiesDataToSend.push({ Id: evalutingId, Name: getSelectedMunicipalityName(evalutingId) });
+
+                    // adding to UI table
+                    var newRow = '<tr>' +
+                        '<td class="identifier">' + evalutingId + '</td>' +
+                        '<td>' + getSelectedMunicipalityName(evalutingId) + '</td>' +
+                        '<td>' + currentState + '</td>' +
+                        '<td><a> <span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>' +
+                        '</tr>';
+
+                    $('#tableSelectedMunicipalities').append(newRow);
+
+                }
+            }
+        }
+
+        // validate if the municipality has been added to the table and data to send
+        function duplicated(id) {
+            for (var i = 0; i < municipalitiesDataToSend.length; i++) {
+                if (municipalitiesDataToSend[i].Id === id) {
+                    console.log('municipality with Id: ' + id + ' already included.');
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // retrieve municipality data
+        function getMunicipalityData() {
+            clearMunicipalitiesData();
+            var selectedStateId = $('#selectedAddressState').val();
+
+            $.ajax({
+                type: "post",
+                url: "/Administration/Catalog/GetMunicipalityData",
+                data: { selectedStateId: selectedStateId },
+                success: function (receivedData) {
+                    console.log(receivedData)
+
+                    // load the received values to the dropdown
+                    var data = [];
+                    for (var i = 0; i < receivedData.length; i++) {
+                        //updating dropdown
+                        data.push({ label: receivedData[i].MunicipalityName, value: receivedData[i].MunicipalityId });
+                        municipalitiesData.push({ Id: receivedData[i].MunicipalityId, Name: receivedData[i].MunicipalityName });
+                    }
+                    $("#municipalityDropdown").multiselect('dataprovider', data);
+                },
+                error: function () {
+                    AlertErrorMessage("Error.");
+                }
+            })
+        }
+
+        function clearMunicipalitiesData() {
+            municipalitiesData.length = 0;
+        }
+
+        function clearMunicipalitiesDataToSend() {
+            municipalitiesDataToSend.length = 0;
+        }
+
+        function getSelectedMunicipalityName(id) {
+            for (var i = 0; i < municipalitiesData.length; i++) {
+                if (municipalitiesData[i].Id == id) {
+                    return municipalitiesData[i].Name;
+                }
+            }
+        }
+
+        // this handles the removal of municipality from table
+        $("#tableSelectedMunicipalities").on('click', '.glyphicon', function () {
+
+            // getting of municipality to remove
+            var id = $(this).closest('tr').children('td.identifier').text();
+
+            $(this).closest('tr').remove();
+
+            // clear this element from municipalitiesDataToSend
+            var temporalArray = [];
+
+            for (var i = 0; i < municipalitiesDataToSend.length; i++) {
+                if (municipalitiesDataToSend[i].Id === id) {
+                    municipalitiesDataToSend.splice(i, 1);
+                }
+            }
+        });
+
+    </script>
+}
+

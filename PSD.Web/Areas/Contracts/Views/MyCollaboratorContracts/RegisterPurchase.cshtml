@@ -1,0 +1,75 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model ContractSubdistributor
+@{
+    ViewBag.Title = "Registrar compra de " + Model.Subdistributor.Type;
+    ViewBag.SubTitle = Model.Subdistributor.DisplayName;
+    bool canRegisterS1 = (bool)ViewBag.CanRegisterS1;
+    bool canRegisterS2 = (bool)ViewBag.CanRegisterS2;
+    int selectedMonth = PSD.Common.Dates.Today.Month;
+    if (selectedMonth < 7 && !canRegisterS1) { selectedMonth = -1; }
+    if (selectedMonth > 6 && !canRegisterS2) { selectedMonth = -1; }
+}
+
+@using (Html.BeginForm("RegisterPurchase", "MyCollaboratorContracts", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-6", role = "form", onsubmit = "return ValidateForm()", name = "RegisterPurchase" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.Hidden("postAction", "")
+    @Html.HiddenFor(x=>x.Id)
+    <div class="form-group">
+        <label for="IdB" class="col-md-4 control-label">Subdistribuidor<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" value="@Model.Subdistributor.DisplayName" readonly />
+        </div>
+    </div>
+    <div class="form-group" id="grpIdB">
+        <label for="IdB" class="col-md-4 control-label">Fecha de compra<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-5">
+            <!--<input type="text" class="form-control datepicker" name="IdB" id="IdB" value="@PSD.Common.Strings.FormatDate(PSD.Common.Dates.Today)" />-->
+            <select class="multiselect" id="selectedMonth" name="selectedMonth">
+                <option value="1" @(selectedMonth == 1 ? "selected" : "") @(canRegisterS1 ? "" : "disabled")>Enero</option>
+                <option value="2" @(selectedMonth == 2 ? "selected" : "") @(canRegisterS1 ? "" : "disabled")>Febrero</option>
+                <option value="3" @(selectedMonth == 3 ? "selected" : "") @(canRegisterS1 ? "" : "disabled")>Marzo</option>
+                <option value="4" @(selectedMonth == 4 ? "selected" : "") @(canRegisterS1 ? "" : "disabled")>Abril</option>
+                <option value="5" @(selectedMonth == 5 ? "selected" : "") @(canRegisterS1 ? "" : "disabled")>Mayo</option>
+                <option value="6" @(selectedMonth == 6 ? "selected" : "") @(canRegisterS1 ? "" : "disabled")>Junio</option>
+                <option value="7" @(selectedMonth == 7 ? "selected" : "") @(canRegisterS2 ? "" : "disabled")>Julio</option>
+                <option value="8" @(selectedMonth == 8 ? "selected" : "") @(canRegisterS2 ? "" : "disabled")>Agosto</option>
+                <option value="9" @(selectedMonth == 9 ? "selected" : "") @(canRegisterS2 ? "" : "disabled")>Septiembre</option>
+                <option value="10" @(selectedMonth == 10 ? "selected" : "") @(canRegisterS2 ? "" : "disabled")>Octubre</option>
+                <option value="11" @(selectedMonth == 11 ? "selected" : "") @(canRegisterS2 ? "" : "disabled")>Noviembre</option>
+                <option value="12" @(selectedMonth == 12 ? "selected" : "") @(canRegisterS2 ? "" : "disabled")>Diciembre</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="IdB" class="col-md-4 control-label">Monto<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-5">
+            <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" class="form-control" name="purchaseAmount" id="purchaseAmount" value="" placeholder="" />
+                <span class="input-group-addon">MXN</span>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Registrar compra</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href ='/Contracts/MyCollaboratorContracts';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}
+
+
+
+

@@ -1,0 +1,104 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.BayerEmployee
+@{
+    ViewBag.Title = "Alta de usuario Bayer";
+}
+
+@using (Html.BeginForm("EmployeeCreate", "Employee", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-6", role = "form", onsubmit = "return ValidateForm()", name = "EmployeeCreate" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <div id="grpPerson.User.RolesXUser[0].Cat_UserRoleId" class="form-group">
+        <label for="Person.User.RolesXUser[0].Cat_UserRoleId" class="col-lg-4 control-label">Perfil</label>
+        <div class="col-lg-8">
+            @*@Html.DropDownListFor(x => x.Person.User.RolesXUser, PSD.Web.Controllers._BaseWebController.CatUserRolesEmployee())*@
+            <select name="User.RolesXUser[0].Cat_UserRoleId" id="User.RolesXUser[0].Cat_UserRoleId" class="multiselect " validate-required onchange="UserRoleSelected()">
+                <option value="-1">Seleccionar...</option>
+                @foreach (Cat_UserRole item in PSD.Controller._BaseController.CatUserRolesBayer())
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group" id="grpIdB">
+        <label for="IdB" class="col-lg-4 control-label">CWId <span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="IdB" id="IdB" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.EMail">
+        <label for="Person.EMail" class="col-lg-4 control-label">Email <span id="_lblPerson.EMail" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="EMail" id="EMail" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.Name">
+        <label for="Person.Name" class="col-lg-4 control-label">Nombre <span id="_lblPerson.Name" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="Name" id="Name" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.LastNameF">
+        <label for="Person.LastNameF" class="col-lg-4 control-label">Apellido paterno <span id="_lblPerson.LastNameF" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="LastNameF" id="LastNameF" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.LastNameM">
+        <label for="Person.LastNameM" class="col-lg-4 control-label">Apellido materno <span id="_lblPerson.LastNameM" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="LastNameM" id="LastNameM" />
+        </div>
+    </div>
+    <div id="grpselectedZone" class="form-group">
+        <label for="selectedZone" class="col-lg-4 control-label">Zonas</label>
+        <div class="col-lg-8">
+            <select name="selectedZone" id="selectedZone" class="multiselect-large" validate-required>
+                @foreach (SelectListItem item in PSD.Web.Controllers._BaseWebController.CatZones())
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Crear usuario</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/Administration/Employee';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+        function UserRoleSelected() {
+            //alert("enye:" + jFormatId('User.RolesXUser[0].Cat_UserRoleId').find(":selected").val());
+            var auxSelectedRole = $(jFormatId('User.RolesXUser[0].Cat_UserRoleId'));
+            if (auxSelectedRole == null || auxSelectedRole == undefined) { AlertErrorMessage('Error PSD.Web.Administration.Employee.Employeecreate.View.js.111 @PSD.Web.Controllers._BaseWebController.errorDefault'); return; }
+            //alert(auxSelectedRole.find(":selected").val());
+            //$("#grpselectedZone").addClass("hidden"); return;
+            $("#grpselectedZone").removeClass("has-error").removeClass("hidden");
+
+            switch (auxSelectedRole.find(":selected").val()) {
+                case "1":
+                case "2":
+                    $("#grpselectedZone").addClass("hidden");
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    </script>
+}
+
+
+
+

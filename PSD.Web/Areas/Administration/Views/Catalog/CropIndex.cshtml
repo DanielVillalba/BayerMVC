@@ -1,0 +1,59 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<Cat_Crop>
+
+@{
+    ViewBag.Title = "Catálogo de cultivos";
+
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @if (Identity.CurrentUser.IsInRole("appadmin"))
+        {
+            <div class="text-right">
+                <a class="btn-export" href="#"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Exportar</a>
+                <a>&nbsp;|&nbsp;</a><a href="/Administration/Catalog/CropAdd"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Crear nuevo</a>
+            </div>
+        }
+        <table class="table datatable table-export">
+            <thead>
+                <tr>
+                    <th>Cultivo Straco</th>
+                    <th>Cultivo</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Cat_Crop item in Model)
+                {
+                    <tr>
+                        <td>@item.CropCategory.Name</td>
+                        <td>@item.Name</td>
+                        <td class="text-center"><a href="/Administration/Catalog/CropEdit/@item.Id" class=""><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                        <td class="text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/Administration/Catalog/CropDelete/@item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"><!--glyphicon-remove--></span></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@*
+        @section pageControls{
+            Html.Partial("/[path]/[partial_name].cshtml", partial_model)
+    }
+*@
+@section pageCSS{
+}
+@section pageScripts{
+    <script src="/Content/Components/Table2Excel/tableExport.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.btn-export').on('click', function () {
+                $('.table-export').tableExport({ type: 'excel' });//csv
+            });
+        });
+    </script>
+}

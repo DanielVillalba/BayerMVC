@@ -1,0 +1,279 @@
+﻿@using PSD.Security
+@using PSD.Model
+@using PSD.Controller
+@using PSD.Common
+@model PSD.Model.ContractSubdistributor
+@{
+    ViewBag.Title = "Detalle de participante";
+    ViewBag.SubTitle = Model.Subdistributor.DisplayName;
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Estatus</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.ContractSubdistributorStatus.Name</p>
+            </div>
+        </div>
+        <div class="form-group" id="grpYear">
+            <label for="Year" class="col-md-4 control-label">Fecha de convenio<span id="_lblYear" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <p class="form-control">@PSD.Common.Strings.FormatDate(Model.ContractDate)</p>
+            </div>
+        </div>
+        <div class="form-group" id="">
+            <div class="col-md-12">
+                <hr />
+                <h4>Compras registradas</h4>
+                <table class="table table-bordered text-right">
+                    <thead>
+                        <tr>
+                            <th class="text-center">Distribuidor</th>
+                            <th class="text-center">Ene</th>
+                            <th class="text-center">Feb</th>
+                            <th class="text-center">Mar</th>
+                            <th class="text-center">Abr</th>
+                            <th class="text-center">May</th>
+                            <th class="text-center">Jun</th>
+                            <th class="text-center">Jul</th>
+                            <th class="text-center">Ago</th>
+                            <th class="text-center">Sep</th>
+                            <th class="text-center">Oct</th>
+                            <th class="text-center">Nov</th>
+                            <th class="text-center">Dic</th>
+                        </tr>
+                    </thead>
+                    @foreach (DistributorPurchasesXContractSubdistributor item in Model.DistributorPurchases)
+                    {
+                        if (item.DistributorId == Identity.CurrentUser.ParentId)
+                        {
+                            <tr>
+                                <td>
+                                    <label for="IdB" class="control-label">@item.Distributor.DisplayName<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseJan, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseFeb, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseMar, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseApr, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseMay, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseJun, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseJul, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseAgo, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseSep, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseOct, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseNov, addCents: false)</p>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="input-group">
+                                        <p>@Strings.FormatCurrency(item.PurchaseDic, addCents: false)</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    <tfoot>
+                        <tr>
+                            <td><label for="IdB" class="control-label">Subtotal Semestral<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label></td>
+                            <td colspan="6">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="@Model.GoalTotalS1PercentageInt" aria-valuemin="0" aria-valuemax="100" style="width: @Model.GoalTotalS1PercentageStr">
+                                        <span class="sr-only">@Model.GoalTotalS1PercentageStr Complete (success)</span>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-primary">@Strings.FormatCurrency(Model.PurchaseTotalS1, true, true) = @Model.GoalTotalS1PercentageStr</p>
+                                </div>
+                            </td>
+                            <td colspan="6">
+                                <div class="progress">
+                                    <div class="progress-bar progress-bar-success progress-bar-striped" role="progressbar" aria-valuenow="@Model.GoalTotalS2PercentageInt" aria-valuemin="0" aria-valuemax="100" style="width: @Model.GoalTotalS2PercentageStr">
+                                        <span class="sr-only">@Model.GoalTotalS2PercentageStr Complete (success)</span>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-primary">@Strings.FormatCurrency(Model.PurchaseTotalS2, true, true) = @Model.GoalTotalS2PercentageStr</p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><label for="IdB" class="control-label">Total Meta<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label></td>
+                            <td colspan="12">
+                                <div class="input-group col-md-12 text-center">
+                                    <div id="container-speed" style="width: 300px; height: 200px;Margin:0 auto;"></div>
+                                    <p class="text-primary">@Strings.FormatCurrency(Model.PurchaseTotal, true, true) @* = @Strings.FormatPercentage(Model.PurchaseTotal)*@</p>
+                                </div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <!--<label for="Folio" class="col-md-4 control-label"></label>-->
+            <div class="col-md-10">
+                <button type="button" class="btn btn-primary" onclick="window.location = '/Contracts/MyCollaboratorContracts/RegisterPurchase/@Model.Id';">Registrar compra</button>
+                <button type="button" class="btn btn-primary" onclick="window.location = '/Contracts/MyCollaboratorContracts/Edit/@Model.Id';">Editar montos</button>
+                <button type="button" class="btn btn-default" onclick="window.location = '/Contracts/MyCollaboratorContracts';">Regresar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var gaugeOptions = {
+
+                chart: {
+                    type: 'solidgauge'
+                },
+
+                title: null,
+
+                pane: {
+                    center: ['50%', '85%'],
+                    size: '140%',
+                    startAngle: -90,
+                    endAngle: 90,
+                    background: {
+                        backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || '#EEE',
+                        innerRadius: '60%',
+                        outerRadius: '100%',
+                        shape: 'arc'
+                    }
+                },
+
+                tooltip: {
+                    enabled: false
+                },
+
+                // the value axis
+                yAxis: {
+                    stops: [
+                        [0.1, '#DF5353'], // red
+                        [0.5, '#DDDF0D'], // yellow
+                        [0.9, '#55BF3B'] // green
+                    ],
+                    lineWidth: 0,
+                    minorTickInterval: null,
+                    tickAmount: 2,
+                    title: {
+                        y: -70
+                    },
+                    labels: {
+                        y: 16
+                    }
+                },
+
+                plotOptions: {
+                    solidgauge: {
+                        dataLabels: {
+                            y: 5,
+                            borderWidth: 0,
+                            useHTML: true
+                        }
+                    }
+                }
+            };
+
+            // The speed gauge
+            var chartSpeed = Highcharts.chart('container-speed', Highcharts.merge(gaugeOptions, {
+                yAxis: {
+                    min: 0,
+                    max: 100,
+                    title: {
+                        text: 'Avance'
+                    }
+                },
+
+                credits: {
+                    enabled: false
+                },
+
+                series: [{
+                    name: 'Speed',
+                    data: [@Model.GoalTotalPercentageInt],
+                    dataLabels: {
+                        format: '<div style="text-align:center"><span style="font-size:25px;color:' +
+                            ((Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black') + '">{y}</span><br />' +
+                '<span style="font-size:12px;color:silver">% de meta</span></div>'
+                    },
+                    tooltip: {
+                        valueSuffix: ' % de meta'
+                    }
+                }]
+
+            }));
+
+            // Bring life to the dials
+            setInterval(function () {
+                // Speed
+                var point,
+                    newVal,
+                    inc;
+
+                if (chartSpeed) {
+                    point = chartSpeed.series[0].points[0];
+                    inc = Math.round(0);//(Math.random() - 0.5) * 100);
+                    newVal = point.y + inc;
+
+                    if (newVal < 0 || newVal > 200) {
+                        newVal = point.y - inc;
+                    }
+
+                    point.update(newVal);
+                }
+            }, 2000);
+        });
+    </script>
+}

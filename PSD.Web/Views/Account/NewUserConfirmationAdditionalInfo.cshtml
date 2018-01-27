@@ -1,0 +1,58 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.User
+@{
+    ViewBag.Title = "Registro de usuario";
+    ViewBag.SubTitle = "Información de perfil";
+}
+
+@using (Html.BeginForm("NewUserConfirmationAdditionalInfo", "Account", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-6", role = "form", onsubmit = "return ValidateForm()", name = "NewUserConfirmationAdditionalInfo" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    <div class="form-group" id="grpPerson.Name">
+        <label for="Person.Name" class="col-lg-4 control-label">CWId <span id="_lblPerson.Name" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="Person.Employee.IdB" id="Person.Employee.IdB" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.Name">
+        <label for="Person.Name" class="col-lg-4 control-label">Nombre <span id="_lblPerson.Name" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="Person.Name" id="Person.Name" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.LastNameF">
+        <label for="Person.LastNameF" class="col-lg-4 control-label">Apellido paterno <span id="_lblPerson.LastNameF" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="Person.LastNameF" id="Person.LastNameF" />
+        </div>
+    </div>
+    <div class="form-group" id="grpPerson.LastNameM">
+        <label for="Person.LastNameM" class="col-lg-4 control-label">Apellido materno <span id="_lblPerson.LastNameM" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="Person.LastNameM" id="Person.LastNameM" />
+        </div>
+    </div>
+    <div class="form-group" id="grpUserName">
+        <label for="UserName" class="col-lg-4 control-label">Email <span id="_lblValUserName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-lg-8">
+            <input type="text" class="form-control" name="NickName" id="NickName" value="@Model.NickName" placeholder="Usuario" validate-required />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Guardar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}

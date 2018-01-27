@@ -1,0 +1,81 @@
+﻿@using PSD.Security
+@using PSD.Model
+@model PSD.Model.BayerEmployee
+@{
+    ViewBag.Title = "Mi Cuenta";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">CWId</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.IdB</p>
+            </div>
+        </div>
+        <!--
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Usuario</label>
+            <div class="col-md-8">
+                <p class="form-control">@Identity.CurrentUser.Nick</p>
+            </div>
+        </div>
+        -->
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Nombre</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.Name</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Correo electr&oacute;nico</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.EMail</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="PhoneNumber" class="col-md-4 control-label">Tel&eacute;fono</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.PhoneNumber</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Perfil</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.User.InRoleNames</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Estatus</label>
+            <div class="col-md-8">
+                <p class="form-control">@(Model.User.Cat_UserStatus == null ? "" : Model.User.Cat_UserStatus.Name)</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Contrase&ntilde;a</label>
+            <div class="col-md-8">
+                <input type="password" class="form-control" value="11111111" />
+            </div>
+            <div class="col-md-4">
+                @*<button type="button" class="btn btn-warning" onclick="window.location('/Account/ChangePassword')">Cambiar contraseñasss</button>*@
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                &nbsp;<br />
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label"></label>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary" onclick="window.location.href = '/Account/Edit';">Editar mi cuenta</button>
+                <button type="button" class="btn btn-warning col-md-offset-1" onclick="window.location.href = '/Account/ChangePassword';">Cambiar contraseña</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+}

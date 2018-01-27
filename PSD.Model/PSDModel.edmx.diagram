@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ef14ed4bf1144d0a9c6a9a296ee513ce" Name="Diagram1" ZoomLevel="75" >
+        <EntityTypeShape EntityType="PSDModel.User" Width="2.625" PointX="17.125" PointY="4" />
+        <EntityTypeShape EntityType="PSDModel.RolesXUser" Width="1.5" PointX="14.875" PointY="1.375" />
+        <EntityTypeShape EntityType="PSDModel.Cat_UserRole" Width="1.5" PointX="17.75" PointY="1.5" />
+        <AssociationConnector Association="PSDModel.Cat_UserRoleRolesXUser" />
+        <AssociationConnector Association="PSDModel.UserRolesXUser" />
+        <EntityTypeShape EntityType="PSDModel.Person" Width="1.5" PointX="17.75" PointY="8.375" />
+        <EntityTypeShape EntityType="PSDModel.Cat_UserStatus" Width="1.5" PointX="10.75" PointY="1.75" />
+        <AssociationConnector Association="PSDModel.Cat_UserStatusUser" />
+        <AssociationConnector Association="PSDModel.PersonUser" />
+        <EntityTypeShape EntityType="PSDModel.BayerEmployee" Width="2" PointX="30.25" PointY="13.75" />
+        <EntityTypeShape EntityType="PSDModel.Distributor" Width="2.625" PointX="10.25" PointY="17" />
+        <EntityTypeShape EntityType="PSDModel.Address" Width="3" PointX="36.375" PointY="16.5" />
+        <EntityTypeShape EntityType="PSDModel.AddressMunicipality" Width="2" PointX="37.125" PointY="25.75" />
+        <EntityTypeShape EntityType="PSDModel.AddressState" Width="2.5" PointX="37.25" PointY="28.875" />
+        <EntityTypeShape EntityType="PSDModel.AddressColony" Width="2.875" PointX="36.625" PointY="20" />
+        <EntityTypeShape EntityType="PSDModel.AddressPostalCode" Width="2.75" PointX="36.75" PointY="22.875" />
+        <AssociationConnector Association="PSDModel.AddressStateAddressMunicipality" />
+        <EntityTypeShape EntityType="PSDModel.SubdistributorCommercialName" Width="2.375" PointX="27.625" PointY="21.375" />
+        <EntityTypeShape EntityType="PSDModel.DistributorEmployee" Width="2.625" PointX="10.375" PointY="12.875" />
+        <AssociationConnector Association="PSDModel.DistributorDistributorUser" />
+        <EntityTypeShape EntityType="PSDModel.Cat_Zone" Width="2" PointX="41" PointY="25.875" />
+        <AssociationConnector Association="PSDModel.AddressMunicipalityAddressPostalCode" />
+        <AssociationConnector Association="PSDModel.AddressPostalCodeAddressColony" />
+        <AssociationConnector Association="PSDModel.AddressColonyAddress" />
+        <EntityTypeShape EntityType="PSDModel.Cat_Crop" Width="1.875" PointX="27.875" PointY="26.5" />
+        <AssociationConnector Association="PSDModel.AddressDistributor" />
+        <EntityTypeShape EntityType="PSDModel.DistributorContact" Width="2.625" PointX="6.25" PointY="18" />
+        <EntityTypeShape EntityType="PSDModel.Cat_DistributorContactArea" Width="2.375" PointX="2.25" PointY="20.375" />
+        <AssociationConnector Association="PSDModel.Cat_DistributorContactAreaDistributorContact" />
+        <AssociationConnector Association="PSDModel.DistributorDistributorContact" />
+        <EntityTypeShape EntityType="PSDModel.DistributorBranch" Width="2.625" PointX="2.625" PointY="14.125" />
+        <AssociationConnector Association="PSDModel.AddressDistributorBranch" />
+        <EntityTypeShape EntityType="PSDModel.DistributorBranchContact" Width="3.75" PointX="1.375" PointY="8.875" />
+        <EntityTypeShape EntityType="PSDModel.Cat_DistributorBranchContactArea" Width="3.25" PointX="1.875" PointY="6" />
+        <AssociationConnector Association="PSDModel.Cat_DistributorBranchContactAreaDistributorBranchContact" />
+        <AssociationConnector Association="PSDModel.DistributorBranchDistributorBranchContact" />
+        <EntityTypeShape EntityType="PSDModel.Subdistributor" Width="2.625" PointX="24.5" PointY="16.5" />
+        <AssociationConnector Association="PSDModel.AddressSubdistributor" />
+        <InheritanceConnector EntityType="PSDModel.BayerEmployee" />
+        <InheritanceConnector EntityType="PSDModel.DistributorEmployee" />
+        <AssociationConnector Association="PSDModel.Cat_ZoneAddressMunicipality" />
+        <EntityTypeShape EntityType="PSDModel.SubdistributorEmployee" Width="2.625" PointX="24.5" PointY="13.75" />
+        <AssociationConnector Association="PSDModel.SubdistributorSubdistributorEmployee" />
+        <InheritanceConnector EntityType="PSDModel.SubdistributorEmployee" />
+        <EntityTypeShape EntityType="PSDModel.AddressesXSubdistributor" Width="2.5" PointX="30" PointY="17.875" />
+        <AssociationConnector Association="PSDModel.AddressAddressesXDistributor" />
+        <AssociationConnector Association="PSDModel.BayerEmployeeSubdistributor" />
+        <AssociationConnector Association="PSDModel.BayerEmployeeSubdistributor1" />
+        <EntityTypeShape EntityType="PSDModel.SubdistributorContact" Width="3.375" PointX="19.625" PointY="19.125" />
+        <EntityTypeShape EntityType="PSDModel.Cat_SubdistributorContactArea" Width="2.875" PointX="19.875" PointY="24.625" />
+        <AssociationConnector Association="PSDModel.SubdistributorSubdistributorContact" />
+        <AssociationConnector Association="PSDModel.Cat_SubdistributorContactAreaSubdistributorContact" />
+        <EntityTypeShape EntityType="PSDModel.SubdistributorCropsXMunicipality" Width="3" PointX="31" PointY="25.75" />
+        <AssociationConnector Association="PSDModel.Cat_CropSubdistributorCropsXMunicipality" />
+        <AssociationConnector Association="PSDModel.AddressMunicipalitySubdistributorCropsXMunicipality" />
+        <AssociationConnector Association="PSDModel.SubdistributorSubdistributorCropsXMunicipality" />
+        <EntityTypeShape EntityType="PSDModel.DistributorCropsXMunicipality" Width="2.875" PointX="14.875" PointY="18.125" />
+        <AssociationConnector Association="PSDModel.AddressMunicipalityDistributorCropsXMunicipality" />
+        <AssociationConnector Association="PSDModel.Cat_CropDistributorCropsXMunicipality" />
+        <EntityTypeShape EntityType="PSDModel.MunicipalitiesXEmployee" Width="3" PointX="34.125" PointY="13.625" />
+        <AssociationConnector Association="PSDModel.BayerEmployeeMunicipalitiesXEmployee" />
+        <AssociationConnector Association="PSDModel.AddressMunicipalityMunicipalitiesXEmployee" />
+        <AssociationConnector Association="PSDModel.SubdistributorSubdistributorCommercialName" />
+        <AssociationConnector Association="PSDModel.DistributorDistributorCropsXMunicipality" />
+        <AssociationConnector Association="PSDModel.DistributorDistributorBranch" />
+        <EntityTypeShape EntityType="PSDModel.ContractDistributor" Width="2.25" PointX="9.375" PointY="27.625" />
+        <AssociationConnector Association="PSDModel.DistributorContractDistributor" />
+        <AssociationConnector Association="PSDModel.BayerEmployeeContractDistributor" />
+        <AssociationConnector Association="PSDModel.BayerEmployeeContractDistributor1" />
+        <EntityTypeShape EntityType="PSDModel.Cat_ContractDistributorStatus" Width="2.5" PointX="5.375" PointY="28.375" />
+        <AssociationConnector Association="PSDModel.Cat_ContractDistributorStatusContractDistributor" />
+        <EntityTypeShape EntityType="PSDModel.Cat_CropCategory" Width="2" PointX="27.625" PointY="29.125" />
+        <AssociationConnector Association="PSDModel.Cat_CropCategoryCat_Crop" />
+        <EntityTypeShape EntityType="PSDModel.ContentLink" Width="1.5" PointX="25.5" PointY="0.75" />
+        <EntityTypeShape EntityType="PSDModel.AppConfiguration" Width="2.875" PointX="1.375" PointY="0.875" />
+        <EntityTypeShape EntityType="PSDModel.ContractSubdistributor" Width="2.5" PointX="15.125" PointY="24" />
+        <EntityTypeShape EntityType="PSDModel.Cat_ContractSubdistributorStatus" Width="2.5" PointX="15.125" PointY="33.125" />
+        <AssociationConnector Association="PSDModel.Cat_ContractSubdistributorStatusContractSubdistributor" />
+        <AssociationConnector Association="PSDModel.SubdistributorContractSubdistributor" />
+        <AssociationConnector Association="PSDModel.BayerEmployeeContractSubdistributor" />
+        <AssociationConnector Association="PSDModel.BayerEmployeeContractSubdistributor1" />
+        <EntityTypeShape EntityType="PSDModel.DistributorPurchasesXContractSubdistributor" Width="3.125" PointX="11.625" PointY="21.625" />
+        <EntityTypeShape EntityType="PSDModel.News" Width="2.5" PointX="30" PointY="0.75" />
+        <EntityTypeShape EntityType="PSDModel.NewsSection" Width="1.5" PointX="34.25" PointY="1.125" />
+        <AssociationConnector Association="PSDModel.NewsNewsSection" />
+        <AssociationConnector Association="PSDModel.SubdistributorAddressesXSubdistributor" />
+        <AssociationConnector Association="PSDModel.ContractSubdistributorDistributorPurchasesXContractSubdistributor" />
+        <AssociationConnector Association="PSDModel.DistributorDistributorPurchasesXContractSubdistributor" />
+        <AssociationConnector Association="PSDModel.ContractDistributorDistributor" />
+        <AssociationConnector Association="PSDModel.ContractSubdistributorSubdistributor" />
+        <EntityTypeShape EntityType="PSDModel.ContentData" Width="1.875" PointX="5.625" PointY="0.875" />
+        <EntityTypeShape EntityType="PSDModel.SubdistributorDiscountCoupon" Width="2.625" PointX="11.875" PointY="27.25" />
+        <EntityTypeShape EntityType="PSDModel.SubdistributorPromotionCoupon" Width="2.5" PointX="11.875" PointY="31" />
+        <AssociationConnector Association="PSDModel.ContractSubdistributorSubdistributorDiscountCoupon" />
+        <AssociationConnector Association="PSDModel.ContractSubdistributorSubdistributorPromotionCoupon" />	
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

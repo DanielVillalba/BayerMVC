@@ -1,0 +1,56 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<ContractDistributor>
+
+@{
+    ViewBag.Title = "Mis Convenios";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Id Convenio</th>
+                    <th>Periodo</th>
+                    <th>Meta</th>
+                    @*
+                        <th>GRV</th>
+                        <th>RTV</th>
+                    *@
+                    <th>Regi&oacute;n asignada</th>
+                    <th>Zona asignada</th>
+                    <th>Estatus</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ContractDistributor item in Model)
+                {
+                    <tr>
+                        <td><a href="/Contracts/MyDistributorContracts/Detail/@item.Id">@item.IdB</a></td>
+                        <td>@item.Year</td>
+                        <td>@PSD.Common.Strings.FormatCurrency(item.AmountGoalTotalPre)</td>
+                        @*
+                            <td>@item.GRVBayerEmployee.NameDisplay</td>
+                            <td>@item.RTVBayerEmployee.NameDisplay</td>
+                        *@
+                        <td>@item.RegisteredRegionName</td>
+                        <td>@item.RegisteredZoneName</td>
+                        <td>@item.ContractDistributorStatus.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}

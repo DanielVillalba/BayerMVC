@@ -1,0 +1,65 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<Subdistributor>
+
+@{
+    ViewBag.Title = "Subdistribuidores/Agricultores";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="text-right">
+            @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeRTVOperation))
+            {
+                <a class="btn-export" href="#"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Exportar </a>
+            }
+            @if (Identity.CurrentUser.IsInRole(PSD.Controller.UserRole.AppAdmin + "," + PSD.Controller.UserRole.EmployeeRTVOperation))
+            {
+                <a>&nbsp;|&nbsp;</a><a href="/Administration/Subdistributor/Create"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Crear nuevo</a>
+            }
+        </div>
+        <table class="table datatable table-export">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Tipo</th>
+                    <th>Razon social</th>
+                    <th>Nombre comercial</th>
+                    <th>RTV Asignado</th>
+                    <!--<th>Eliminar</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Subdistributor item in Model)
+                {
+                    <tr>
+                        <td class="text-center"><a href="#/" class="no-parent-click" onclick="window.location = '/Administration/Subdistributor/Detail/@item.Id';">@item.IdB</a></td>
+                        <td>@item.Type</td>
+                        <td>@item.BusinessName</td>
+                        <td>@(item.CommercialNames.Count > 0 ? item.CommercialNames.FirstOrDefault().Name : "")</td>
+                        <td>@item.RTV_BayerEmployee.NameDisplay</td>
+                        <!--<td class="text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/Administration/Subdistributor/SubdistributorDelete/@item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>-->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@*
+        @section pageControls{
+            Html.Partial("/Views/Shared/Controls/Modal.cshtml", modalStudent)
+    }
+*@
+@section pageCSS{
+}
+@section pageScripts{
+    <script src="/Content/Components/Table2Excel/tableExport.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.btn-export').on('click', function () {
+                $('.table-export').tableExport({ type: 'excel' });//csv
+            });
+        });
+    </script>
+}

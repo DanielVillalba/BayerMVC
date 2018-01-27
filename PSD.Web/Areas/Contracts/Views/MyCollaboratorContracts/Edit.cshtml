@@ -1,0 +1,138 @@
+﻿@using PSD.Security
+@using PSD.Model
+@using PSD.Controller
+@using PSD.Common
+@model PSD.Model.DistributorPurchasesXContractSubdistributor
+@{
+    ViewBag.Title = "Editar compras registradas de participante";
+    ViewBag.SubTitle = Model.ContractSubdistributor.Subdistributor.DisplayName;
+    bool canRegisterS1 = (bool)ViewBag.CanRegisterS1;
+    bool canRegisterS2 = (bool)ViewBag.CanRegisterS2;
+}
+
+@using (Html.BeginForm("Edit", "MyCollaboratorContracts", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-6", role = "form", onsubmit = "return ValidateForm()", name = "Edit" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    @Html.HiddenFor(x => x.DistributorId)
+    @Html.HiddenFor(x => x.ContractSubdistributorId)
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group" id="">
+                <label for="Year" class="col-md-4 control-label">Enero<span id="_lblYear" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseJan" id="PurchaseJan" value="@Model.PurchaseJan" placeholder="" @(canRegisterS1 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Febrero<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseFeb" id="PurchaseFeb" value="@Model.PurchaseFeb" placeholder="" @(canRegisterS1 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Marzo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseMar" id="PurchaseMar" value="@Model.PurchaseMar" placeholder="" @(canRegisterS1 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Abril<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseApr" id="PurchaseApr" value="@Model.PurchaseApr" placeholder="" @(canRegisterS1 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Mayo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseMay" id="PurchaseMay" value="@Model.PurchaseMay" placeholder="" @(canRegisterS1 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Junio<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseJun" id="PurchaseJun" value="@Model.PurchaseJun" placeholder="" @(canRegisterS1 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Julio<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseJul" id="PurchaseJul" value="@Model.PurchaseJul" placeholder="" @(canRegisterS2 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Agosto<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseAgo" id="PurchaseAgo" value="@Model.PurchaseAgo" placeholder="" @(canRegisterS2 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Septiembre<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseSep" id="PurchaseSep" value="@Model.PurchaseSep" placeholder="" @(canRegisterS2 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Octubre<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseOct" id="PurchaseOct" value="@Model.PurchaseOct" placeholder="" @(canRegisterS2 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Noviembre<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseNov" id="PurchaseNov" value="@Model.PurchaseNov" placeholder="" @(canRegisterS2 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+            <div class="form-group" id="">
+                <label for="" class="col-md-4 control-label">Diciembre<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+                <div class="input-group">
+                    <span class="input-group-addon">$</span>
+                    <input type="text" class="form-control" name="PurchaseDic" id="PurchaseDic" value="@Model.PurchaseDic" placeholder="" @(canRegisterS2 ? "" : "readonly") />
+                    <span class="input-group-addon">MXN</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <!--<label for="Folio" class="col-md-4 control-label"></label>-->
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/Contracts/MyCollaboratorContracts/Detail/@Model.Id';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+        function ValidateForm() {
+
+        }
+    </script>
+}

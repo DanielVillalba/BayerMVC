@@ -1,0 +1,153 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.ContractSubdistributor
+@{
+    ViewBag.Title = "Alta de Convenio con Subdistribuidor/Agricultor";
+}
+
+@using (Html.BeginForm("Create", "ToSubdistributor", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-10", role = "form", onsubmit = "return ValidateForm()", name = "Create" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.SubdistributorId)
+    @Html.HiddenFor(m => m.Subdistributor.Type)
+    <div class="form-group" id="grpSubdistributor.BusinessName">
+        <label for="Subdistributor.BusinessName" class="col-md-4 control-label">Subdistribuidor<span id="_lblSubdistributor.BusinessName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" value="@Model.Subdistributor.DisplayName" readonly />
+        </div>
+    </div>
+    <div class="form-group" id="grpYear">
+        <label for="Year" class="col-md-4 control-label">Año<span id="_lblYear" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="Year" id="Year" value="@PSD.Common.Dates.Today.Year" placeholder="" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-md-4 control-label">Distribuidores<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <select name="selectedDistributors" id="selectedDistributors" class="multiselect" multiple>
+                @foreach (SelectListItem item in ViewBag.AvailableDistributors)
+                {
+                    <option value="@item.Value">@item.Text</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="RegisteredRegionName" class="col-md-4 control-label">Region registrada<span id="_lblRegisteredRegionName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="RegisteredRegionName" name="RegisteredRegionName" value="@Model.RegisteredRegionName" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="IdB" class="col-md-4 control-label">Zona registrada<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" id="RegisteredZoneName" name="RegisteredZoneName" value="@Model.RegisteredZoneName" readonly />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-md-4 control-label">&Uacute;ltima meta<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" value="@PSD.Common.Strings.FormatCurrency(Model.Subdistributor.LastContractTotalGoal)" readonly />
+            @Html.HiddenFor(x => x.Subdistributor.LastContractTotalGoal)
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="" class="col-md-4 control-label">&Uacute;ltimo comprado<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" value="@PSD.Common.Strings.FormatCurrency(Model.Subdistributor.LastContractTotalPurchased)" readonly />
+            @Html.HiddenFor(x => x.Subdistributor.LastContractTotalPurchased)
+        </div>
+    </div>
+    <div class="form-group" id="grpIdB">
+        <label for="IdB" class="col-md-4 control-label">Meta<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th>Periodo</th>
+                        <th>Valor Bayer</th>
+                    </tr>
+                </thead>
+                <tr>
+                    <td>
+                        <label for="IdB" class="control-label">S1<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="AmountGoalS1Pre" id="AmountGoalS1Pre" value="@(Model.AmountGoalS1Pre>0? Model.AmountGoalS1Pre.ToString() : "")" placeholder="" onchange="CalculateTotal()" tabindex="1" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="IdB" class="control-label">S2<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label>
+                    </td>
+                    <td>
+                        <input type="text" class="form-control" name="AmountGoalS2Pre" id="AmountGoalS2Pre" value="@(Model.AmountGoalS2Pre>0? Model.AmountGoalS2Pre.ToString() : "")" placeholder="" onchange="CalculateTotal()" tabindex="2" />
+                    </td>
+                </tr>
+                <tfoot>
+                    <tr>
+                        <td><label for="IdB" class="col-md-4 control-label">Monto meta<span id="_lblIdB" class="field-validation-error text-danger" style="display:none;"></span></label></td>
+                        <td><input type="text" class="form-control" name="AmountGoalTotalPre" id="AmountGoalTotalPre" value="@Model.AmountGoalTotalPre" placeholder="" readonly /></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+    @*
+    <div class="form-group" id="grpNickName">
+        <label for="NickName" class="col-md-4 control-label">GRV asignado <span id="_lblNickName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <select name="selectedAddressState" id="selectedAddressState" class="multiselect" onchange="">
+                <option value="-1">Seleccionar...</option>
+                <option value="-1">GRV Juan Perez</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group" id="grpNickName">
+        <label for="NickName" class="col-md-4 control-label">RTV asignado <span id="_lblNickName" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            @if (Identity.CurrentUser.IsInRole("employee-rtv_operation"))
+            {
+                <input type="text" class="form-control" name="RTV_BayerEmployeeId" id="RTV_BayerEmployeeId" value="@Identity.CurrentUser.DisplayName" readonly />
+                
+            }
+            else
+            {
+                <select name="RTV_BayerEmployeeId" id="RTV_BayerEmployeeId" class="multiselect" onchange="">
+                    <option value="-1">Seleccionar...</option>
+                    @foreach (SelectListItem item in PSD.Web.Controllers._BaseWebController.Rtvs())
+                    {
+                        <option value="@item.Value" @(item.Selected ? "selected" : "")>@item.Text</option>
+                    }
+                </select>
+            }
+        </div>
+    </div>*@
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Crear convenio</button>
+            <button type="button" class="btn btn-default" onclick="window.location='/Contracts/ToSubdistributor';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+        function CalculateTotal() {
+            var s1 = parseFloat(0 + $("#AmountGoalS1Pre").val());
+            var s2 = parseFloat(0 + $("#AmountGoalS2Pre").val());
+            $("#AmountGoalTotalPre").val(s1 + s2);
+        }
+
+    </script>
+}
+
+
+
+

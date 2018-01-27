@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Actualizar imagen de jumbotron";
+}
+
+@using (Html.BeginForm("UpdateJumbotronBkg", "StartPage", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-12", role = "form", onsubmit = "return ValidateForm()", name = "Create", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="jumbotron">
+            <h1>Ejemplo Titulo</h1>
+            <p class="lead">Ejemplo de como se veria la imagen en la pagina de inicio. <small></small></p>
+        </div>
+    </div>
+    <div class="row">
+        <input type="file"
+               class="form-control"
+               name="Image"
+               id="Image"
+               value="" />
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Implementar imagen de fondo</button>
+            <button type="button" class="btn btn-default" onclick="window.location='/ContentManagement/StartPage/Index';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageScripts{
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+    <script type="text/javascript">
+
+        // this script only allow the user to preview the change, it does not actually update the image file
+
+        // image handling
+        function readURL(input, imageControl) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('.jumbotron').css('background', ' url(' + e.target.result + ') no-repeat center center');
+                    $('.jumbotron').css('background-size', '100% 100%');
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // displaying selected image
+        $("#Image").change(function ()
+        {
+            readURL(this, '#mainImagePreview');
+            $('#IsImageDirty').val('True');
+        });
+
+    </script>
+}
+

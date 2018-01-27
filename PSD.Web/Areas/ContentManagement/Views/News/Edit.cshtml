@@ -1,0 +1,405 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Web.Areas.ContentManagement.Models.NewsViewModel
+@{
+    ViewBag.Title = "Edicion de Avisos / Promocion";
+}
+
+@using (Html.BeginForm("Edit", "News", new { returnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal col-md-10", role = "form", onsubmit = "return ValidateForm()", name = "Create", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(x => x.Id)
+    // main news area
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">URL Id<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control"
+                   name="URLId" id="URLId"
+                   value="@Model.URLId"
+                   placeholder="URL para identificar la noticia"
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un URL')"
+                   oninput="setCustomValidity('')" />
+            <span class="text-info">El t&iacute;tulo que se mostrar&aacute; en la url</span>
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Titulo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control"
+                   name="Title"
+                   id="Title"
+                   value="@Model.Title"
+                   placeholder="Titulo"
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un Titulo')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Subtitulo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control"
+                   name="Subtitle"
+                   id="Subtitle"
+                   value="@Model.Subtitle"
+                   placeholder="Subtitulo"
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un Subtitulo')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Configuracion<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="row col-md-8">
+            <div class="row">
+                <div class="checkbox col-md-4">
+                    <label>@Html.EditorFor(model => model.IsDistributorVisible) Distribuidor</label>
+                </div>
+                <div class="checkbox col-md-4">
+                    <label>@Html.EditorFor(model => model.IsSubdistributorVisible) Subdistribuidor</label>
+                </div>
+                <div class="checkbox col-md-4">
+                    <label>@Html.EditorFor(model => model.IsFarmerVisible) Agricultor</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="checkbox col-md-4">
+                    <label>@Html.EditorFor(model => model.IsPublished) Publicar la noticia</label>
+                    <br />
+                    <span class="text-info">Publicar la noticia al crearla</span>
+                </div>
+                <div class="checkbox col-md-8">
+                    <label>@Html.EditorFor(model => model.IsNonAuthenticatedVisible) Visible sin autenticar</label>
+                    <br />
+                    <span class="text-info">El evento es visible aun sin entrar credenciales</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Parrafo principal<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control rich-text-editor"
+                   name="Paragraph"
+                   id="Paragraph"
+                   value=""
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un Parrafo')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Imagen principal<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            @Html.HiddenFor(x => x.IsImageDirty)
+            <img id="mainImagePreview" src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.ImageName)" class="center-block img-responsive" />
+            <input type="file"
+                   class="form-control"
+                   name="Image"
+                   id="Image"
+                   value="" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Pie de imagen principal<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="ImageFooter" id="ImageFooter" value="@Model.ImageFooter" placeholder="Pie de pagina" />
+        </div>
+    </div>
+    <div class="form-group" id="grp">
+        <label for="" class="col-md-4 control-label">Autor<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text"
+                   class="form-control"
+                   name="Author"
+                   id="Author"
+                   value="@Model.Author"
+                   placeholder="Autor de la noticia, informacion visible en la publicacion"
+                   required
+                   oninvalid="this.setCustomValidity('Por favor ingresa un Autor')"
+                   oninput="setCustomValidity('')" />
+        </div>
+    </div>
+
+
+    // news section area
+
+    <div id="section1">
+        @Html.HiddenFor(x => x.S1Id)
+        <hr>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Parrafo <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text"
+                       class="form-control rich-text-editor"
+                       name="S1Paragraph"
+                       id="S1Paragraph" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.HiddenFor(x => x.IsS1ImageDirty)
+                <img id="S1ImagePreview" src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.S1ImageName)" class="center-block img-responsive" />
+                <input type="file" class="form-control" name="S1Image" id="S1Image" value="" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Pie de imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="S1ImageFooter" id="S1ImageFooter" value="@Model.S1ImageFooter" placeholder="Pie de pagina" />
+            </div>
+        </div>
+    </div>
+
+    <div id="section2">
+        @Html.HiddenFor(x => x.S2Id)
+        <hr>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Parrafo <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text"
+                       class="form-control rich-text-editor"
+                       name="S2Paragraph"
+                       id="S2Paragraph" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.HiddenFor(x => x.IsS2ImageDirty)
+                <img id="S2ImagePreview" src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.S2ImageName)" class="center-block img-responsive" />
+                <input type="file" class="form-control" name="S2Image" id="S2Image" value="" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Pie de imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="S2ImageFooter" id="S2ImageFooter" value="@Model.S2ImageFooter" placeholder="Pie de pagina" />
+            </div>
+        </div>
+    </div>
+
+    <div id="section3">
+        @Html.HiddenFor(x => x.S3Id)
+        <hr>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Parrafo <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text"
+                       class="form-control rich-text-editor"
+                       name="S3Paragraph"
+                       id="S3Paragraph" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.HiddenFor(x => x.IsS3ImageDirty)
+                <img id="S3ImagePreview" src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.S3ImageName)" class="center-block img-responsive" />
+                <input type="file" class="form-control" name="S3Image" id="S3Image" value="" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Pie de imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="S3ImageFooter" id="S3ImageFooter" value="@Model.S3ImageFooter" placeholder="Pie de pagina" />
+            </div>
+        </div>
+    </div>
+
+    <div id="section4">
+        @Html.HiddenFor(x => x.S4Id)
+        <hr>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Parrafo <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text"
+                       class="form-control rich-text-editor"
+                       name="S4Paragraph"
+                       id="S4Paragraph" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.HiddenFor(x => x.IsS4ImageDirty)
+                <img id="S4ImagePreview" src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.S4ImageName)" class="center-block img-responsive" />
+                <input type="file" class="form-control" name="S4Image" id="S4Image" value="" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Pie de imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="S4ImageFooter" id="S4ImageFooter" value="@Model.S4ImageFooter" placeholder="Pie de pagina" />
+            </div>
+        </div>
+    </div>
+
+    <div id="section5">
+        @Html.HiddenFor(x => x.S5Id)
+        <hr>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Parrafo <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text"
+                       class="form-control rich-text-editor"
+                       name="S5Paragraph"
+                       id="S5Paragraph" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @Html.HiddenFor(x => x.IsS5ImageDirty)
+                <img id="S5ImagePreview" src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.S5ImageName)" class="center-block img-responsive" />
+                <input type="file" class="form-control" name="S5Image" id="S5Image" value="" />
+            </div>
+        </div>
+        <div class="form-group" id="grp">
+            <label for="" class="col-md-4 control-label">Pie de imagen <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="S5ImageFooter" id="S5ImageFooter" value="@Model.S5ImageFooter" placeholder="Pie de pagina" />
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10 col-md-offset-4">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary" onclick="ValidateParagraphs()">Guardar noticia</button>
+            <button type="button" class="btn btn-default" id="AddSectionBtn" onclick="AddSection()">Agregar Seccion</button>
+            <button type="button" class="btn btn-default" onclick="window.location='/ContentManagement/News/Index';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.css" rel="stylesheet">
+}
+@section pageScripts{
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.8/summernote.js"></script>
+    <script type="text/javascript">
+
+        // Get all the html code from summernote
+        function ValidateParagraphs() {
+            $('#Paragraph').val($('#Paragraph').summernote('code'));
+            $('#S1Paragraph').val($('#S1Paragraph').summernote('code'));
+            $('#S2Paragraph').val($('#S2Paragraph').summernote('code'));
+            $('#S3Paragraph').val($('#S3Paragraph').summernote('code'));
+            $('#S4Paragraph').val($('#S4Paragraph').summernote('code'));
+            $('#S5Paragraph').val($('#S5Paragraph').summernote('code'));
+        }
+
+        function ValidateForm() {
+            return true;
+        }
+        $(document).ready(function () {
+            //https://summernote.org/deep-dive/#initialization-options
+            $('.rich-text-editor').summernote(
+                {
+                    placeholder: 'Capture la informacion de su parrafo aqui...'
+                    , fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New']
+                    , fontNamesIgnoreCheck: ['Merriweather']
+                    , toolbar: [
+                        // [groupName, [list of button]]
+                        ['style', ['bold', 'italic', 'underline', 'clear', 'link']],
+                        ['font', ['strikethrough', 'superscript', 'subscript']],
+                        ['fontsize', ['fontsize']],
+                        ['color', ['color']],
+                        ['para', ['ul', 'ol', 'paragraph']],
+                        ['height', ['height']],
+                        ['code', ['codeview']]
+                    ]
+                }
+            );
+
+            // populate summernote textBoxes
+            $('#Paragraph').summernote('code', '@Html.Raw(Model.Paragraph)');
+            $('#S1Paragraph').summernote('code', '@Html.Raw(Model.S1Paragraph)');
+            $('#S2Paragraph').summernote('code', '@Html.Raw(Model.S2Paragraph)');
+            $('#S3Paragraph').summernote('code', '@Html.Raw(Model.S3Paragraph)');
+            $('#S4Paragraph').summernote('code', '@Html.Raw(Model.S4Paragraph)');
+            $('#S5Paragraph').summernote('code', '@Html.Raw(Model.S5Paragraph)');
+
+            // hidding empty news sections
+            $('[id^="section"]').each(function () {
+                var isParagraphPopulated = $(this).find('.rich-text-editor').summernote('code') !== '<p><br></p>';
+                var isImagePopulated = $(this).find('.img-responsive').attr('src') !== '/Content/Media/Shared/Pictures/';
+
+                if (!isParagraphPopulated && !isImagePopulated) {
+                    $(this).hide();
+                }
+            });
+
+            // limit the number of sections to 5
+            if ($('#section5').is(':visible')) {
+                $('#AddSectionBtn').prop("disabled", true);
+            }
+        });
+
+        function AddSection() {
+            $('[id^="section"]').each(function () {
+                var isVisible = $(this).is(':visible');
+                if (!isVisible) {
+                    $(this).show();
+                    return false;
+                }
+            });
+
+            // limit the number of sections to 5
+            if ($('#section5').is(':visible')) {
+                $('#AddSectionBtn').prop("disabled", true);
+            }
+        }
+
+        // image handling
+        function readURL(input, imageControl) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $(imageControl).attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // displaying selected image
+        $("#Image").change(function ()
+        {
+            readURL(this, '#mainImagePreview');
+            $('#IsImageDirty').val('True');
+        });
+        $("#S1Image").change(function ()
+        {
+            readURL(this, '#S1ImagePreview');
+            $('#IsS1ImageDirty').val('True');
+        });
+        $("#S2Image").change(function ()
+        {
+            readURL(this, '#S2ImagePreview');
+            $('#IsS2ImageDirty').val('True');
+        });
+        $("#S3Image").change(function ()
+        {
+            readURL(this, '#S3ImagePreview');
+            $('#IsS3ImageDirty').val('True');
+        });
+        $("#S4Image").change(function ()
+        {
+            readURL(this, '#S4ImagePreview');
+            $('#IsS4ImageDirty').val('True');
+        });
+        $("#S5Image").change(function ()
+        {
+            readURL(this, '#S5ImagePreview');
+            $('#IsS5ImageDirty').val('True');
+        });
+    </script>
+}

@@ -1,0 +1,44 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Web.Areas.Content.Controllers
+@model PSD.Model.News
+@{
+    string valuePassedIn = this.ViewData.ContainsKey("AreaRequest") ? this.ViewData["AreaRequest"].ToString() : string.Empty;
+}
+<br />
+<br />
+<div class="container col-md-12" onclick="Navigate('@Model.URLId', '@valuePassedIn')" style="cursor: pointer;">
+    <div class="row text-left text-primary">
+        <strong>@Model.Title</strong>
+    </div>
+    <div class="row">
+        <div class="text-right">
+            <span class="glyphicon glyphicon-time"></span> @Model.PublishDate.Value.ToLongDateString()
+        </div>
+    </div>
+    <div class="row">
+        <div class="img-thumbnail">
+            <img src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.Image)" class="img-responsive" />
+        </div>
+    </div>
+    <div class="row">
+        @{string cleanText = PSD.Web.Controllers._BaseWebController.MiniatureParagraphFormatter(HttpUtility.HtmlDecode(Model.Paragraph));}
+        @cleanText
+    </div>
+    <div class="row">
+        <div class="text-right text-muted">
+            Autor: @Model.Author
+        </div>
+    </div>
+</div>
+<hr />
+
+<script type="text/javascript">
+    function Navigate(clickedItem, area) {
+        if (area === 'Content')
+            window.location.href = '/Content/News/Detail/' + clickedItem;
+        else
+            window.location.href = '/ContentManagement/News/Detail/' + clickedItem;
+    }
+</script>
+

@@ -1,0 +1,69 @@
+﻿@using PSD.Security
+@model PSD.Web.Areas.BenefitProgramsManagement.Models.CouponConfigurationsModel
+@{
+    ViewBag.Title = "Procesamiento de cupones";
+}
+
+<div class="form-group">
+    <label for="" class="col-md-2 control-label">Estado del ciclo<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+    <div class="col-md-8">
+        @if (Model.IsCalculated)
+        {
+            <label>Procesado</label>
+            <button type="button" class="btn btn-primary" onclick="window.location.href = '/BenefitProgramsManagement/Coupon/CouponProcessing_Restart';">Comenzar nuevo ciclo</button>
+            <span class="input-group-sm text-muted"></span>
+        }
+        else
+        {
+            <label>Activo</label>
+            <span class="input-group-sm text-muted">al procesar el ambos semestres, se podrá generar el reporte de cupones, sin embargo ya no se podrán registrar más compras</span>
+        }
+    </div>
+</div>
+<div class="form-group"><div class="col-md-12">&nbsp;</div></div>
+<div class="form-group">
+    <label for="" class="col-md-2 control-label">Semestre 1<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+    <div class="col-md-8">
+        @if (Model.S1IsCalculated)
+        {
+            <label>Procesado</label>
+            <button type="button" class="btn btn-success" onclick="window.location.href = '/BenefitProgramsManagement/Coupon/CouponProcessing_ReportS1';">Ver reporte de cupones</button>
+            <span class="input-group-sm text-muted"></span>
+        }
+        else
+        {
+            <label>Por procesar</label>
+            <button type="button" class="btn btn-warning" onclick="window.location.href = '/BenefitProgramsManagement/Coupon/CouponProcessing_ProcessS1';">Procesar</button>
+            <span class="input-group-sm text-muted">al procesar el semestre 1, se podrá generar el reporte de cupones, sin embargo ya no se podrán registrar más compras para el semestre</span>
+        }
+    </div>
+</div>
+<div class="form-group"><div class="col-md-12">&nbsp;</div></div>
+<div class="form-group">
+    <label for="" class="col-md-2 control-label">Semestre 2<span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>
+    <div class="col-md-8">
+        @if (Model.S2IsCalculated)
+        {
+            <label>Procesado</label>
+            <button type="button" class="btn btn-success" onclick="window.location.href = '/BenefitProgramsManagement/Coupon/CouponProcessing_ReportS2';">Ver reporte de cupones</button>
+            <span class="input-group-sm text-muted"></span>
+        }
+        else
+        {
+            <label>Por procesar</label>
+            <button type="button" class="btn btn-warning" onclick="window.location.href = '/BenefitProgramsManagement/Coupon/CouponProcessing_ProcessS2';">Procesar</button>
+            <span class="input-group-sm text-muted">al procesar el semestre 2, se podrá generar el reporte de cupones, sin embargo ya no se podrán registrar más compras para el semestre</span>
+        }
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script>
+        $(function () {
+        });
+    </script>
+}
+
+

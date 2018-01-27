@@ -1,0 +1,68 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<DistributorBranchContact>
+
+@{
+    ViewBag.Title = "Indice de contactos de sucursal: " + ViewBag.DistributorBranchName;
+
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        @if (Identity.CurrentUser.IsInRole("appadmin"))
+        {
+            <div class="text-right">
+                <button class="btn btn-link" onclick="contactAdd(@ViewBag.Id)">Crear nuevo</button>
+            </div>
+        }
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Telefono</th>
+                    <th>E Mail</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (DistributorBranchContact item in Model)
+                {
+                    <tr>
+                        <td>@item.FullName</td>
+                        <td>@item.PhoneNumber</td>
+                        <td>@item.EMail</td>
+                        <td class="text-center"><a href="/Administration/Distributor/BranchContactEdit/@item.Id" class=""><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                        <td class="text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/Administration/Distributor/BranchContactDelete/@item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"><!--glyphicon-remove--></span></a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div>
+            <button class="btn btn-info" onclick="distributorDetail(@ViewBag.Id)">Regresar a detalle</button>
+        </div>
+    </div>
+</div>
+@*
+        @section pageControls{
+            Html.Partial("/[path]/[partial_name].cshtml", partial_model)
+    }
+*@
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+
+        function contactAdd(branchId) {
+            window.location.href = '/Administration/Distributor/BranchContactAdd/' + branchId;
+        }
+
+        function distributorDetail(id) {
+            window.location.href = '/Administration/Distributor/BranchDetail/' + id;
+        }
+
+    </script>
+}

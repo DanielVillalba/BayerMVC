@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSD.Web", "PSD.Web\PSD.Web.csproj", "{39611372-AF69-487E-A9C1-101DD185D605}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSD.Model", "PSD.Model\PSD.Model.csproj", "{33E0F1EC-42DF-4F46-B980-ED39A20B00AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSD.Controller", "PSD.Controller\PSD.Controller.csproj", "{3EEFDE6D-57F5-4CB7-ABD4-2335A4F75E73}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PSD.Repository", "PSD.Repository\PSD.Repository.csproj", "{D5BD9554-959F-4214-8FF6-35115633F9C2}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://roomie-it.visualstudio.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = PSD.Controller\\PSD.Controller.csproj
+		SccProjectName1 = PSD.Controller
+		SccLocalPath1 = PSD.Controller
+		SccProjectUniqueName2 = PSD.Model\\PSD.Model.csproj
+		SccProjectName2 = PSD.Model
+		SccLocalPath2 = PSD.Model
+		SccProjectUniqueName3 = PSD.Repository\\PSD.Repository.csproj
+		SccProjectName3 = PSD.Repository
+		SccLocalPath3 = PSD.Repository
+		SccProjectUniqueName4 = PSD.Web\\PSD.Web.csproj
+		SccProjectName4 = PSD.Web
+		SccLocalPath4 = PSD.Web
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{39611372-AF69-487E-A9C1-101DD185D605}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39611372-AF69-487E-A9C1-101DD185D605}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39611372-AF69-487E-A9C1-101DD185D605}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39611372-AF69-487E-A9C1-101DD185D605}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33E0F1EC-42DF-4F46-B980-ED39A20B00AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33E0F1EC-42DF-4F46-B980-ED39A20B00AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33E0F1EC-42DF-4F46-B980-ED39A20B00AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33E0F1EC-42DF-4F46-B980-ED39A20B00AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3EEFDE6D-57F5-4CB7-ABD4-2335A4F75E73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3EEFDE6D-57F5-4CB7-ABD4-2335A4F75E73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3EEFDE6D-57F5-4CB7-ABD4-2335A4F75E73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3EEFDE6D-57F5-4CB7-ABD4-2335A4F75E73}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5BD9554-959F-4214-8FF6-35115633F9C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5BD9554-959F-4214-8FF6-35115633F9C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5BD9554-959F-4214-8FF6-35115633F9C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5BD9554-959F-4214-8FF6-35115633F9C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

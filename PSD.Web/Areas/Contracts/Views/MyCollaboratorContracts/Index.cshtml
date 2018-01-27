@@ -1,0 +1,47 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<Subdistributor>
+
+@{
+    ViewBag.Title = "Mis Participantes";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table datatable">
+            <thead>
+                <tr>
+                    <th>Participante</th>
+                    <th>Periodo</th>
+                    <th>%Meta</th>
+                    <th>Registrar compra</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (Subdistributor item in Model)
+                {
+                    if (item.CurrentContract != null)
+                    {
+                        <tr>
+                            <td><a href="#/" class="" onclick="window.location = '/Contracts/MyCollaboratorContracts/Detail/@item.CurrentContract.Id';">@item.DisplayName</a></td>
+                            <td>@item.CurrentContract.Year</td>
+                            <td>@item.CurrentContract.GoalTotalPercentageStr</td>
+                            <td class="text-center"><a href="/Contracts/MyCollaboratorContracts/RegisterPurchase/@item.CurrentContract.Id"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+        });
+    </script>
+}

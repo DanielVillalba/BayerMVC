@@ -1,0 +1,77 @@
+﻿@using PSD.Web.Areas.Content.Controllers
+@using PSD.Web.Areas.Content.Models
+@model DetailViewModel
+
+@{
+    ViewBag.Title = Model.DetailNews.Title;
+}
+
+<div class="container col-md-9">
+    <div class="row">
+        <div class="text-center text-success">
+            <h2>@Model.DetailNews.Title</h2>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <img src="@Url.Content(@PSD.Web.Controllers._BaseWebController.ImageStoragePath + "/" + @Model.DetailNews.Image)" class="center-block img-responsive" />
+    </div>
+    <div class="row text-right">
+        <div class="text text-left">
+            <strong>@Model.DetailNews.ImageFooter</strong>
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-right">
+            <span class="glyphicon glyphicon-time"></span> @Model.DetailNews.PublishDate.Value.ToLongDateString()
+        </div>
+    </div>
+    <div class="row">
+        <div class="text-left">
+            <h3>@Model.DetailNews.Subtitle</h3>
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        @Html.Raw(HttpUtility.HtmlDecode(Model.DetailNews.Paragraph))
+    </div>
+    @foreach (PSD.Model.NewsSection section in Model.DetailNews.NewsSections)
+    {
+        <div class="row">
+            @Html.Partial("_NewsSection", section)
+        </div>
+    }
+    <div class="row">
+        <div class="text-right text-muted">
+            Author: @Model.DetailNews.Author
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <a class="" href="/Content/News/Index"><h3><span class="glyphicon glyphicon-th-list"></span> Avisos y Promociones</h3></a>
+    </div>
+
+    @{ 
+        if (Model.PreviousNews != null && Model.NextNews != null)
+        {
+            <div class="row">
+                <div class="col-md-5">
+                    @Html.Partial("_NewsNavigation", Model.PreviousNews, new ViewDataDictionary { { "AreaRequest", "Content" } })
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                    @Html.Partial("_NewsNavigation", Model.NextNews, new ViewDataDictionary { { "AreaRequest", "Content" } })
+                </div>
+            </div>
+        }
+        else if (Model.PreviousNews != null || Model.NextNews != null)
+        {
+            PSD.Model.News navigateDetail = Model.PreviousNews ?? Model.NextNews;
+            <div class="row">
+                <div class="col-md-6">
+                    @Html.Partial("_NewsNavigation", navigateDetail, new ViewDataDictionary { { "AreaRequest", "Content" } })
+                </div>
+            </div>
+        }
+    }
+</div>
+

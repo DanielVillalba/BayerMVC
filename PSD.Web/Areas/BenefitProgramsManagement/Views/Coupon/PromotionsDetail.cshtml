@@ -1,0 +1,68 @@
+﻿@using PSD.Security
+@using PSD.Model
+@using PSD.Controller
+@using PSD.Common
+@model int[,]
+@{
+    ViewBag.Title = "Tabla de Promociones";
+}
+
+<div class="form-group" id="">
+    <div class="col-md-12">
+        <table class="table table-bordered text-right">
+            <thead>
+                <tr>
+                    <th class="text-center">Enero</th>
+                    <th class="text-center">Febrero</th>
+                    <th class="text-center">Marzo</th>
+                    <th class="text-center">Abril</th>
+                    <th class="text-center">Mayo</th>
+                    <th class="text-center">Junio</th>
+                    <th class="text-center">Julio</th>
+                    <th class="text-center">Agosto</th>
+                    <th class="text-center">Septiembre</th>
+                    <th class="text-center">Octubre</th>
+                    <th class="text-center">Noviembre</th>
+                    <th class="text-center">Diciembre</th>
+                </tr>
+            </thead>
+            @for (int a = 0; a < 2; a++)
+            {
+                <tr>
+                    @for (int b = 0; b < 12; b++)
+                    {
+                        <td>
+                            <div class="input-group">
+                                @if (a == 0)
+                                {
+                                    <p>@PSD.Common.Strings.FormatPercentage(Model[b, a])</p>
+                                }
+                                else
+                                {
+                                    <p>@PSD.Common.Strings.FormatCurrency(Model[b, a], true, false, false)</p>
+                                }
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<div class="form-group">
+    <!--<label for="Folio" class="col-md-4 control-label"></label>-->
+    <div class="col-md-12">
+        <button type="button" class="btn btn-primary" onclick="window.location = '/BenefitProgramsManagement/Coupon/PromotionsEdit';">Editar</button>
+        <button type="button" class="btn btn-default" onclick="window.location = '/';">Regresar</button>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>
+}

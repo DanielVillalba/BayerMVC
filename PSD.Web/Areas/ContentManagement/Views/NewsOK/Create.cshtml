@@ -1,0 +1,192 @@
+﻿@model PSD.Web.Areas.ContentManagement.Models.NewsViewModel
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>NewsViewModel</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            @Html.LabelFor(model => model.URLId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.URLId)
+                @Html.ValidationMessageFor(model => model.URLId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title)
+                @Html.ValidationMessageFor(model => model.Title)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Subtitle, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Subtitle)
+                @Html.ValidationMessageFor(model => model.Subtitle)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Paragraph, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Paragraph)
+                @Html.ValidationMessageFor(model => model.Paragraph)
+            </div>
+        </div>
+
+        <div>
+            @Html.LabelFor(m => m.Image)
+            @Html.TextBoxFor(m => m.Image, new { type = "file" })
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ImageFooter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ImageFooter)
+                @Html.ValidationMessageFor(model => model.ImageFooter)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Author, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Author)
+                @Html.ValidationMessageFor(model => model.Author)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsDistributorVisible, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsDistributorVisible)
+                @Html.ValidationMessageFor(model => model.IsDistributorVisible)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsSubdistributorVisible, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsSubdistributorVisible)
+                @Html.ValidationMessageFor(model => model.IsSubdistributorVisible)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsPublished, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IsPublished)
+                @Html.ValidationMessageFor(model => model.IsPublished)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PublishDate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PublishDate)
+                @Html.ValidationMessageFor(model => model.PublishDate)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S1Paragraph, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S1Paragraph)
+                @Html.ValidationMessageFor(model => model.S1Paragraph)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S1ImageFooter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S1ImageFooter)
+                @Html.ValidationMessageFor(model => model.S1ImageFooter)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S2Paragraph, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S2Paragraph)
+                @Html.ValidationMessageFor(model => model.S2Paragraph)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S2ImageFooter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S2ImageFooter)
+                @Html.ValidationMessageFor(model => model.S2ImageFooter)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S3Paragraph, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S3Paragraph)
+                @Html.ValidationMessageFor(model => model.S3Paragraph)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S3ImageFooter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S3ImageFooter)
+                @Html.ValidationMessageFor(model => model.S3ImageFooter)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S4Paragraph, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S4Paragraph)
+                @Html.ValidationMessageFor(model => model.S4Paragraph)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S4ImageFooter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S4ImageFooter)
+                @Html.ValidationMessageFor(model => model.S4ImageFooter)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S5Paragraph, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S5Paragraph)
+                @Html.ValidationMessageFor(model => model.S5Paragraph)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.S5ImageFooter, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.S5ImageFooter)
+                @Html.ValidationMessageFor(model => model.S5ImageFooter)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

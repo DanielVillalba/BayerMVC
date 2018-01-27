@@ -1,0 +1,105 @@
+﻿@using PSD.Security
+@using PSD.Model
+@using PSD.Controller
+@using PSD.Common
+@model int[,]
+@{
+    ViewBag.Title = "Tabla de Promociones";
+    int currentMonth = 3; // ¿PSD.Common.Dates.Today.Month;
+}
+
+@using (Html.BeginForm("PromotionsEdit", "Coupon", new { }, FormMethod.Post, new { @class = "form-horizontal col-md-12", role = "form", onsubmit = "return ValidateForm()", name = "PromotionsEdit" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-group">
+        <!--<label for="" class="col-md-4 control-label">label <span id="_lbl" class="field-validation-error text-danger" style="display:none;"></span></label>-->
+        <table class="table table-bordered text-right">
+            <thead>
+                <tr>
+                    <th class="text-center"></th>
+                    <th class="text-center">Enero</th>
+                    <th class="text-center">Febrero</th>
+                    <th class="text-center">Marzo</th>
+                    <th class="text-center">Abril</th>
+                    <th class="text-center">Mayo</th>
+                    <th class="text-center">Junio</th>
+                </tr>
+            </thead>
+            @for (int a = 0; a < 2; a++)
+            {    
+                <tr>
+                    <td><span>@(a == 0 ? "Porcentaje" : "Monto mínimo de compra")</span></td>
+                    @for (int b = 0; b < 6; b++)
+                    {
+                        <td>
+                            <div class="input-group">
+                                @if (a == 0)
+                                {
+                                    <input type="text" class="form-control" name="model[@b][@a]" id="model[@b][@a]" value="@Model[b, a]" placeholder="" @(b < currentMonth ? "readonly" : "") />
+                                    <span class="input-group-addon">%</span>
+                                }
+                                else
+                                {
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" class="form-control" name="model[@b][@a]" id="model[@b][@a]" value="@Model[b, a]" placeholder="" @(b < currentMonth ? "readonly" : "") />
+                                }
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+        <table class="table table-bordered text-right">
+            <thead>
+                <tr>
+                    <th class="text-center"></th>
+                    <th class="text-center">Julio</th>
+                    <th class="text-center">Agosto</th>
+                    <th class="text-center">Septiembre</th>
+                    <th class="text-center">Octubre</th>
+                    <th class="text-center">Noviembre</th>
+                    <th class="text-center">Diciembre</th>
+                </tr>
+            </thead>
+            @for (int a = 0; a < 2; a++)
+            {
+                <tr>
+                    <td><span>@(a == 0 ? "Porcentaje" : "Monto mínimo de compra")</span></td>
+                    @for (int b = 6; b < 12; b++)
+                    {
+                        <td>
+                            <div class="input-group">
+                                @if (a == 0)
+                                {
+                                    <input type="text" class="form-control" name="model[@b][@a]" id="model[@b][@a]" value="@Model[b, a]" placeholder="" @(b < currentMonth ? "readonly" : "") />
+                                    <span class="input-group-addon">%</span>
+                                }
+                                else
+                                {
+                                    <span class="input-group-addon">$</span>
+                                    <input type="text" class="form-control" name="model[@b][@a]" id="model[@b][@a]" value="@Model[b, a]" placeholder="" @(b < currentMonth ? "readonly" : "") />
+                                }
+                            </div>
+                        </td>
+                    }
+                </tr>
+            }
+        </table>
+    </div>
+    <div class="form-group">
+        <div class="col-md-12">
+            @Html.ValidationSummary()
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-default" onclick="window.location.href = '/BenefitProgramsManagement/Coupon/PromotionsDetail';">Cancelar</button>
+        </div>
+    </div>
+}
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+}

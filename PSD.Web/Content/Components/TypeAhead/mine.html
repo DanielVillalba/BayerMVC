@@ -1,0 +1,82 @@
+<html>
+<head>
+<link href="../../../Content/themes/flatly/bootstrap.css" rel="stylesheet"/>
+<link href="../../../Content/Components/DataTables/css/jquery.dataTables.css" rel="stylesheet"/>
+<link href="../../../Content/Components/DataTables/css/dataTables.bootstrap.css" rel="stylesheet"/>
+<link href="../../../Content/Components/MultiSelect/bootstrap-multiselect.css" rel="stylesheet"/>
+<link href="typeahead.css" rel="stylesheet"/>
+
+<script src="../../../Scripts/jquery-1.11.3.js"></script>
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>-->
+    <script src="typeahead.0.11.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script><!--~/Content/Components/TypeAhead/Handlebars.v4.0.4.js  https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.4/handlebars.js-->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            
+            var substringMatcher = function (strs) {
+                return function findMatches(q, cb) {
+                    var matches, substringRegex;
+
+
+			alert("entre");
+                    // an array that will be populated with substring matches
+                    matches = [];
+
+                    // regex used to determine if a string contains the substring `q`
+                    substrRegex = new RegExp(q, 'i');
+
+                    // iterate through the pool of strings and for any string that
+                    // contains the substring `q`, add it to the `matches` array
+                    $.each(strs, function (i, str) {
+                        if (substrRegex.test(str.id) || substrRegex.test(str.name)) {
+                            matches.push(str);
+                        }
+                    });
+
+                    cb(matches);
+                };
+            };
+
+            //var states = ['AL1001 - Juan Huerta Manzo', 'AL1002 - Abril Martinez Solis', 'AL1011 - Maria la del Barrio', 'AL1012 - Juan Martinez Martinez', 'AL1013 - Maria Candelaria Martinez', 'AL1021 - Oscar Martinez Casanueva', 'AL1030 - Alma Solis Mancera', 'AL1041 - Ana Martinez Mancera', 'Mario Escobar Perez', 'Juan Perez Perez'];
+            var states = [  { id: 'AL1001', name: 'Juan Huerta Manzo' },
+                            { id: 'AL1002', name: 'Abril Martinez Solis'},
+                            { id: 'AL1011', name: 'Maria la del Barrio'},
+                            { id: 'AL1012', name: 'Juan Martinez Martinez'},
+                            { id: 'AL1013', name: 'Maria Candelaria Martinez'},
+                            { id: 'AL1021', name: 'Oscar Martinez Casanueva'},
+                            { id: 'AL1030', name: 'Alma Solis Mancera'},
+                            { id: 'AL1041', name: 'Ana Martinez Mancera' },
+                            { id: 'AL1042', name: 'Mario Escobar Perez' },
+                            { id: 'AL1043', name: 'Juan Perez Perez' }];
+
+            $('.typeahead').typeahead({
+                hint: true,
+                highlight: true,
+                minLength: 1
+            },
+            {
+                name: 'states',
+                source: substringMatcher(states),
+                limit: 5,
+		display: 'id',
+                templates: {
+                    empty: [
+                      '<div class="empty-message">',
+                        'Sin resultados',
+                      '</div>'
+                    ].join('\n'),
+                    suggestion: Handlebars.compile('<div><strong>{{id}}</strong> – {{name}}</div>')
+                }
+            });
+
+        });
+        function ValidateForm() {
+            return true;
+        }
+    </script>
+</head>
+<body>
+	<input type="text" class="form-control typeahead" style="width:500px;" />
+	<label id="StudentId" class="form-control"></label>
+</body>
+</html>

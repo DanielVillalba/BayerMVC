@@ -1,0 +1,132 @@
+﻿@using PSD.Model
+@using PSD.Security
+@model PSD.Model.DistributorBranch
+@{
+    ViewBag.Title = "Detalle sucursal de distribuidor";
+}
+
+    <div class="form-group">
+        <label for="FullName" class="col-md-4 control-label">Nombre <span id="_lbFullname" class="field-validation-error text-danger" style="display:none;"></span></label>
+        <div class="col-md-8">
+            <input type="text" class="form-control" name="Name" id="Name" value="@Model.Name" disabled />
+        </div>
+    </div>
+    <br />
+    <br />
+    <div id="addressArea">
+        <div class="form-group">
+            <label for="postalCode" class="col-md-4 control-label">Codigo postal <span id="_lbpostalCode" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                @{ var postalCodeText = ViewBag.PostalCode ?? "";}
+                <input type="text" class="form-control" id="postalCode" placeholder="ingresa codigo postal" value="@postalCodeText" disabled />
+            </div>
+        </div>
+        <br />
+        <br />
+        <br />
+        <div class="form-group">
+            <label for="state" class="col-md-4 control-label">Estado <span id="_lbstate" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="stateName" value="@PSD.Web.Controllers._BaseWebController.GetStateName(Model.Address.AddressStateId)" disabled />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <label for="municipality" class="col-md-4 control-label">Municipio <span id="_lbmunicipality" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" id="municipalityName" value="@PSD.Web.Controllers._BaseWebController.GetMunicipalityName(Model.Address.AddressMunicipalityId)" disabled />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <label for="AddressColonyId" class="col-md-4 control-label">Colonia <span id="_lbAddressColonyId" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="Name" id="Name" value="@Model.Address.AddressColony.Name" disabled />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <label for="Street" class="col-md-4 control-label">Calle <span id="_lbStreet" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="Name" id="Name" value="@Model.Address.Street" disabled />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <label for="NumberExt" class="col-md-4 control-label">Numero exterior <span id="_lbNumberExt" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="Name" id="Name" value="@Model.Address.NumberExt" disabled />
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <label for="NumberInt" class="col-md-4 control-label">Numero interior <span id="_lbNumberInt" class="field-validation-error text-danger" style="display:none;"></span></label>
+            <div class="col-md-8">
+                <input type="text" class="form-control" name="Name" id="Name" value="@Model.Address.NumberInt" disabled />
+            </div>
+        </div>
+        <br />
+        <br />
+    </div>
+    <div class="form-group">
+        <label for="DistributorContacts" class="col-md-4 control-label">Contactos</label>
+        <div class="col-md-8">
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Puesto</th>
+                        <th>Telefono</th>
+                        <th>Celular</th>
+                        <th>E Mail</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (DistributorBranchContact item in Model.DistributorBranchContacts)
+                    {
+                        <tr>
+                            <td>@item.FullName</td>
+                            <td>@item.Role</td>
+                            <td>@item.PhoneNumber</td>
+                            <td>@item.CellPhone</td>
+                            <td>@item.EMail</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="form-group">
+        <div class="col-lg-10 col-lg-offset-4">
+            <button type="button" class="btn btn-info" onclick="navigateToDistributorBranchContactIndex(@Model.Id)">Editar contactos de sucursal</button>
+            <button type="button" class="btn btn-info" onclick="navigateBackToBranchIndex(@Model.DistributorId)">Regresar a indice de Sucursales</button>
+        </div>
+    </div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script type="text/javascript">
+
+        function ValidateForm() {
+            return true;
+        }
+
+        function navigateBackToBranchIndex(distributorId) {
+            window.location.href = '/Administration/Distributor/BranchIndex/' + distributorId;
+        }
+
+        function navigateToDistributorBranchContactIndex(branchId) {
+            window.location.href = '/Administration/Distributor/BranchContactIndex/' + branchId;
+        }
+
+    </script>
+}

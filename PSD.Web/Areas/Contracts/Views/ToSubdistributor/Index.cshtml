@@ -1,0 +1,70 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Model
+@model List<ContractSubdistributor>
+
+@{
+    ViewBag.Title = "Convenios con Subdistribuidores/Agricultores";
+
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeRTVOperation))
+        {
+            <div class="text-right">
+                <a class="btn-export" href="#"><span class="glyphicon glyphicon-save" aria-hidden="true"></span> Exportar </a>
+            </div>
+        }
+        @*if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeManagerView + "," + UserRole.EmployeeRTVOperation + "," + UserRole.EmployeeRTVView))
+            {
+                <div class="text-right">
+                    <!--<a href="/Contracts/ToSubdistributor/Create">Crear nuevo</a>-->
+                </div>
+            }*@
+        <table class="table datatable table-export">
+            <thead>
+                <tr>
+                    <th>Id Convenio</th>
+                    <th>Id Subdistribuidor/Agricultor</th>
+                    <th>Subdistribuidor/Agricultor</th>
+                    <th>Periodo</th>
+                    <th>Zona</th>
+                    <th>Meta Bayer</th>
+                    <th>Meta Subdistribuidor</th>
+                    <th>Estatus</th>
+                    <!--<th>Eliminar</th>-->
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ContractSubdistributor item in Model)
+                {
+                    <tr>
+                        <td><a href="#/" class="" onclick="window.location = '/Contracts/ToSubdistributor/Detail/@item.Id';">@item.IdB</a></td>
+                        <td><a href="#/" class="" onclick="window.location = '/Administration/Subdistributor/Detail/@item.SubdistributorId';">@item.Subdistributor.IdB</a></td>
+                        <td>@item.Subdistributor.DisplayName</td>
+                        <td>@item.Year</td>
+                        <td>@item.RegisteredZoneName</td>
+                        <td>@PSD.Common.Strings.FormatCurrency(item.AmountGoalTotalPre)</td>
+                        <td>@PSD.Common.Strings.FormatCurrency(item.AmountGoalTotal)</td>
+                        <td>@item.ContractSubdistributorStatus.Name</td>
+                        <!--<td class="text-center"><a href="#" class="" onclick='if (confirm("¿Está seguro de que desea eliminar este registro?")) window.location = "/Contracts/ToSubdistributor/Delete/@item.Id"'><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td>-->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+    <script src="/Content/Components/Table2Excel/tableExport.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.btn-export').on('click', function () {
+                $('.table-export').tableExport({ type: 'excel' });//csv
+            });
+        });
+    </script>
+}

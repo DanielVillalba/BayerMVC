@@ -1,0 +1,216 @@
+﻿@using PSD.Security
+@using PSD.Controller
+@using PSD.Web.Areas.Content.Controllers
+@{
+    ViewBag.Title = "";
+}
+
+@if (Identity.CurrentUser.IsLogged)
+{
+    <div class="row">
+        @if (Identity.CurrentUser.IsInRole(UserRole.SysAdmin + "," + UserRole.AppAdmin))
+        {
+            <div class="col-md-4">
+                <h4>Administración del sitio</h4>
+                <ul>
+                    <li>
+                        <span>Usuarios Bayer</span>
+                        <ul>
+                            <li><a class="" href="/Administration/Employee">Ver listado</a></li>
+                            <li><a class="" href="/Administration/Employee/EmployeeCreate">Alta</a></li>
+                        </ul>
+                    </li>
+                    @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin))
+                    {
+                        <li>
+                            <span>Cat&aacute;logos</span>
+                            <ul>
+                                <li><a class="" href="/Administration/Catalog/CropIndex">Cultivos</a></li>
+                                <li><a class="" href="/Administration/Catalog/RoleIndex">Roles</a></li>
+                                <li><a class="" href="/Administration/Catalog/ZoneIndex">Zonas</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span>Contenido</span>
+                            <ul>
+                                <li><a class="" href="/ContentManagement/StartPage/Index">P&aacute;gina de Inicio</a></li>
+                                <li><a class="" href="/ContentManagement/ContactPage/Index">P&aacute;gina de Contacto</a></li>
+                                <li><a class="" href="/ContentManagement/News/Index">Avisos y Promociones</a></li>
+                                <li><a class="" href="/ContentManagement/Link">Ligas a otros sitios</a></li>
+                            </ul>
+                        </li>
+                    }
+                </ul>
+            </div>
+            if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin))
+            {
+                <div class="col-md-4">
+                    <h4>Programas de beneficios</h4>
+                    <ul>
+                        <li>
+                            <span>Cupones</span>
+                            <ul>
+                                <li><a class="" href="/BenefitProgramsManagement/Coupon/DiscountsDetail">Tabla de Descuentos</a></li>
+                                <li><a class="" href="/BenefitProgramsManagement/Coupon/PromotionsDetail">Tabla de Promociones</a></li>
+                                <li><a class="" href="/BenefitProgramsManagement/Coupon/CouponConfigurations">Configuraciones</a></li>
+                                <li><a class="" href="/BenefitProgramsManagement/Coupon/CouponProcessing">Procesamiento de cupones</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            }
+        }
+
+        @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeManagerView + "," + UserRole.EmployeeRTVOperation + "," + UserRole.EmployeeRTVView))
+        {
+            <div class="col-md-4">
+                <h4>Distribuidores</h4>
+                <ul>
+                    <li><a class="" href="/Administration/Distributor">Ver listado</a></li>
+                    @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin))
+                    {
+                        <li><a class="" href="/Administration/Distributor/DistributorCreate">Alta</a></li>
+                    }
+                </ul>
+            </div>
+        }
+        @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeManagerView + "," + UserRole.EmployeeRTVOperation + "," + UserRole.EmployeeRTVView))
+        {
+            <div class="col-md-4">
+                <h4>Subdistribuidores/Agricultores</h4>
+                <ul>
+                    <li><a class="" href="/Administration/Subdistributor">Ver listado</a></li>
+                    @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin))
+                    {
+                        <li><a class="" href="/Administration/Subdistributor/Create">Alta</a></li>
+                    }
+                </ul>
+            </div>
+        }
+        @if (Identity.CurrentUser.IsInRole(UserRole.AppAdmin + "," + UserRole.EmployeeManagerOperation + "," + UserRole.EmployeeManagerView + "," + UserRole.EmployeeRTVOperation + "," + UserRole.EmployeeRTVView))
+        {
+            <div class="col-md-4">
+                <h4>Convenios</h4>
+                <ul>
+                    <li>
+                        <span>Con Distribuidores</span>
+                        <ul>
+                            <li><a class="" href="/Contracts/BayerToDistributor">Ver listado</a></li>
+                            <!--<li><a class="" href="/">Hist&oacute;rico de convenios</a></li>-->
+                        </ul>
+                    </li>
+                    <li>
+                        <span>Con Subdistribuidores/Agricultores</span>
+                        <ul>
+                            <li><a class="" href="/Contracts/ToSubdistributor">Ver listado</a></li>
+                            <!--<li><a class="" href="/">Hist&oacute;rico de convenios</a></li>-->
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        }
+        @if (Identity.CurrentUser.IsInRole(UserRole.CustomerDistributorOperation))
+        {
+            PSD.Controller.DistributorController auxDistributorController = new PSD.Controller.DistributorController(null);
+            PSD.Model.ContractDistributor auxcontractDistributor = null;
+            try { auxcontractDistributor = auxDistributorController.RetrieveDistributor(Identity.CurrentUser.ParentId).CurrentContract; }
+            catch { }
+            @Html.Partial("~/Areas/Contracts/Views/Shared/Controls/ContractDistributorMini.cshtml", auxcontractDistributor)
+        }
+        @if (Identity.CurrentUser.IsInRole(UserRole.CustomerSubdistributorOperation + "," + UserRole.CustomerSubdistributorView))
+        {
+            PSD.Controller.SubdistributorController auxSubdistributorController = new PSD.Controller.SubdistributorController(null);
+            PSD.Model.ContractSubdistributor auxcontractSubdistributor = null;
+            try { auxcontractSubdistributor = auxSubdistributorController.RetrieveSubdistributor(Identity.CurrentUser.ParentId).CurrentContract; }
+            catch { }
+            @Html.Partial("~/Areas/Contracts/Views/Shared/Controls/ContractSubdistributorMini.cshtml", auxcontractSubdistributor)
+        }
+        @if (Identity.CurrentUser.IsInRole(UserRole.CustomerDistributorOperation + "," + UserRole.CustomerDistributorView))
+        {
+        <!--
+           <div class="col-md-4">
+               <h4>Mis participantes</h4>
+               <ul>
+                   <li><a class="" href="/Contracts/MyCollaboratorContracts">Ver listado</a></li>
+               </ul>
+           </div>
+            -->
+        }
+        @if (Identity.CurrentUser.IsInRole(UserRole.CustomerDistributorOperation + "," + UserRole.CustomerDistributorView + "," + UserRole.CustomerSubdistributorOperation + "," + UserRole.CustomerSubdistributorView))
+        {
+            <div class="col-md-4">
+                <h4>Ligas a otros sitios</h4>
+                @{ Html.RenderAction("RetrieveAllPartial", "Link", new { Area = "Content" }); }
+            </div>
+            <!--
+            <div class="col-md-4">
+                <h4>Avisos y Promociones <small></small></h4>
+                <ul>
+                    <li><a class="" href="/Content/News">Ver Avisos y Promociones</a></li>
+                </ul>
+            </div>
+            -->
+        }
+    </div>
+    if (Identity.CurrentUser.IsInRole(UserRole.CustomerDistributorOperation + "," + UserRole.CustomerDistributorView + "," + UserRole.CustomerSubdistributorOperation + "," + UserRole.CustomerSubdistributorView))
+    {
+        <div class="panel panel-info" style="margin-top:3em;">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a class="" href="/Content/News/Index"><span class="glyphicon glyphicon-th-list"></span> Avisos y Promociones</a>
+                </h3>
+            </div>
+            <div class="panel-body">
+                @{List<PSD.Model.News> latestNews = PSD.Web.Controllers._BaseWebController.GetLatestNews();
+                if (latestNews != null)
+                {
+                    string RequestedFrom = string.Empty;
+                    if (Identity.CurrentUser.IsInRole(UserRole.SysAdmin + "," + UserRole.AppAdmin))
+                    {
+                        RequestedFrom = "ContentManagemnet";
+                    }
+                    else
+                    {
+                        RequestedFrom = "Content";
+                    }
+                    @Html.Partial("_NewsMiniature", latestNews, new ViewDataDictionary { { "AreaRequest", RequestedFrom } })
+                }
+                }
+                &nbsp;
+            </div>
+            <div class="panel-footer">
+                <a class="" href="/Content/News/Index">ver m&aacute;s avisos <span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="jumbotron" @*url('../Content/Media/Shared/Pictures/jumbotron.jpg')*@
+         style="background: url('https://www.micultivo.bayer.com.mx/docbase/bannersArticulos/damping-off-banner-articulo.jpg') no-repeat center center; background-size: 100% 100%; color:white;">
+        @{var content = PSD.Web.Controllers._BaseWebController.GetJumbotronContent();}
+        @Html.Raw(content)
+    </div>
+
+    <div class="row">
+        @{List<PSD.Model.News> latestNews = PSD.Web.Controllers._BaseWebController.GetLatestNews();
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <a class="" href="/Content/News/Index"><span class="glyphicon glyphicon-th-list"></span> Avisos y Promociones</a>
+                </h3>
+            </div>
+            <div class="panel-body">
+                @if (latestNews != null)
+                {
+                    @Html.Partial("_NewsMiniature", latestNews, new ViewDataDictionary { { "AreaRequest", "Content" } })
+                }
+                &nbsp;
+            </div>
+            <div class="panel-footer">
+                <a class="" href="/Content/News/Index">ver m&aacute;s avisos <span class="glyphicon glyphicon-chevron-right"></span></a>
+            </div>
+        </div>
+        }
+    </div>
+}

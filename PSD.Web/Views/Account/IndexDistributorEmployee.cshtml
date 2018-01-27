@@ -1,0 +1,167 @@
+﻿@using PSD.Security
+@using PSD.Model
+@model PSD.Model.DistributorEmployee
+@{
+    ViewBag.Title = "Mi Cuenta";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Id</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.Distributor.IdB</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Razon social</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.Distributor.BusinessName</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Nombre comercial</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.Distributor.CommercialName</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Área de influencia</label>
+            <div class="col-md-8">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Municipio</th>
+                            <th>Cultivos</th>
+                        </tr>
+                    </thead>
+                    @foreach (DistributorCropsXMunicipality item in Model.Distributor.CropsXMunicipality)
+                    {
+                        <tr>
+                            <td>
+                                @item.Municipality.State.Name
+                            </td>
+                            <td>
+                                @item.Municipality.Name
+                            </td>
+                            <td>
+                                @item.Crop.Name
+                            </td>
+                        </tr>
+
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Sitio Web</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.Distributor.WebSite</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Direcci&oacute;n</label>
+            <div class="col-md-8">
+                <textarea class="form-control" rows="4">@Model.Distributor.Address.ToString()</textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="DistributorContacts" class="col-md-4 control-label">Contactos</label>
+            <div class="col-md-8">
+                <table class="table table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Puesto</th>
+                            <th>Telefono</th>
+                            <th>Celular</th>
+                            <th>E Mail</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (DistributorContact item in Model.Distributor.DistributorContacts)
+                        {
+                            <tr>
+                                <td>@item.FullName</td>
+                                <td>@item.Role</td>
+                                <td>@item.PhoneNumber</td>
+                                <td>@item.CellPhone</td>
+                                <td>@item.EMail</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <button type="button" class="btn btn-info col-md-offset-4" onclick="navigateToDistributorContactIndex(@Model.Distributor.Id)">Editar contactos</button>
+        <!--
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Localizaci&oacute;n geogr&aacute;fica</label>
+            <div class="col-md-8">
+                <p class="form-control">Longitud:[] Latitud:[]</p>
+            </div>
+        </div>
+        -->
+        <div class="form-group">
+            <div class="col-md-12">
+                &nbsp;<br />
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8">
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Usuario</label>
+            <div class="col-md-8">
+                <p class="form-control">@(Model.Distributor.DistributorUsers.Count > 0 ? Model.Distributor.DistributorUsers.FirstOrDefault().EMail : "")</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Perfil</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.User.InRoleNames</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Estatus</label>
+            <div class="col-md-8">
+                <p class="form-control">@Model.User.Cat_UserStatus.Name</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label">Contrase&ntilde;a</label>
+            <div class="col-md-8">
+                <input type="password" class="form-control" value="11111111"  />
+            </div>
+            <div class="col-md-4">
+                @*<button type="button" class="btn btn-warning" onclick="window.location('/Account/ChangePassword')">Cambiar contraseñasss</button>*@
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-12">
+                &nbsp;<br />                
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Folio" class="col-md-4 control-label"></label>
+            <div class="col-md-6">
+                <button type="button" class="btn btn-primary" onclick="window.location.href = '/Account/Edit';">Editar mi cuenta</button>
+                <button type="button" class="btn btn-warning col-md-offset-1" onclick="window.location.href = '/Account/ChangePassword';">Cambiar contraseña</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section pageCSS{
+}
+@section pageScripts{
+<script type="text/javascript">
+    function navigateToDistributorContactIndex(distributorId) {
+            window.location.href = '/Administration/Distributor/ContactIndex/' + distributorId;
+        }
+</script>
+}

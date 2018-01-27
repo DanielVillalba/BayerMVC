@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D5BD9554-959F-4214-8FF6-35115633F9C2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PSD.Repository</RootNamespace>
+    <AssemblyName>PSD.Repository</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework">
+      <HintPath>..\packages\EntityFramework.6.0.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="PSD.Common, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Bin\PSD.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Core\IUnitOfWork.cs" />
+    <Compile Include="Core\Repositories\IAddressRepository.cs" />
+    <Compile Include="Core\Repositories\IAddressMunicipalityRepository.cs" />
+    <Compile Include="Core\Repositories\IAddressStateRepository.cs" />
+    <Compile Include="Core\Repositories\IAddressColonyRepository.cs" />
+    <Compile Include="Core\Repositories\IAddressPostalCodeRepository.cs" />
+    <Compile Include="Core\Repositories\IAddressesXSubdistributorRepository.cs" />
+    <Compile Include="Core\Repositories\ICatContractDistributorStatusRepository.cs" />
+    <Compile Include="Core\Repositories\IAppConfigurationRepository.cs" />
+    <Compile Include="Core\Repositories\ISubdistributorDiscountCouponRepository.cs" />
+    <Compile Include="Core\Repositories\ISubdistributorPromotionCouponRepository.cs" />
+    <Compile Include="Core\Repositories\IContentDataRepository.cs" />
+    <Compile Include="Core\Repositories\IContentLinkRepository.cs" />
+    <Compile Include="Core\Repositories\IContractSubdistributorRepository.cs" />
+    <Compile Include="Core\Repositories\IContractDistributorRepository.cs" />
+    <Compile Include="Core\Repositories\ICatCropCategoryRepository.cs" />
+    <Compile Include="Core\Repositories\INewsRepository.cs" />
+    <Compile Include="Core\Repositories\INewsSectionRepository.cs" />
+    <Compile Include="Core\Repositories\IDistributorPurchasesXContractSubdistributorRepository.cs" />
+    <Compile Include="Core\Repositories\ISubdistributorCropsXMunicipalityRepository.cs" />
+    <Compile Include="Core\Repositories\IDistributorCropsXMunicipalityRepository.cs" />
+    <Compile Include="Core\Repositories\IMunicipalitiesXEmployeeRepository.cs" />
+    <Compile Include="Core\Repositories\ISubdistributorContactRepository.cs" />
+    <Compile Include="Core\Repositories\ISubdistributorEmployeeRepository.cs" />
+    <Compile Include="Core\Repositories\ISubdistributorRepository.cs" />
+    <Compile Include="Core\Repositories\ICatSubdistributorContactAreaRepository.cs" />
+    <Compile Include="Core\Repositories\ICatCropRepository.cs" />
+    <Compile Include="Core\Repositories\ICatZoneRepository.cs" />
+    <Compile Include="Core\Repositories\IDistributorEmployeeRepository.cs" />
+    <Compile Include="Core\Repositories\IDistributorRepository.cs" />
+    <Compile Include="Core\Repositories\ISubdistributorCommercialNameRepository.cs" />
+    <Compile Include="Core\Repositories\IDistributorBranchRepository.cs" />
+    <Compile Include="Core\Repositories\IDistributorContactRepository.cs" />
+    <Compile Include="Core\Repositories\IDistributorBranchContactRepository.cs" />
+    <Compile Include="Core\Repositories\ICatDistributorContactAreaRepository.cs" />
+    <Compile Include="Core\Repositories\ICatDistributorBranchContactAreaRepository.cs" />
+    <Compile Include="Core\Repositories\IPersonRepository.cs" />
+    <Compile Include="Core\Repositories\IBayerEmployeeRepository.cs" />
+    <Compile Include="Core\Repositories\ICatUserStatusRepository.cs" />
+    <Compile Include="Core\Repositories\IRepository.cs" />
+    <Compile Include="Core\Repositories\IRolesXUserRepository.cs" />
+    <Compile Include="Core\Repositories\ICatUserRoleRepository.cs" />
+    <Compile Include="Core\Repositories\IUserRepository.cs" />
+    <Compile Include="Persistence\Repositories\AddressColonyRepository.cs" />
+    <Compile Include="Persistence\Repositories\AddressesXSubdistributorRepository.cs" />
+    <Compile Include="Persistence\Repositories\AddressMunicipalityRepository.cs" />
+    <Compile Include="Persistence\Repositories\AddressPostalCodeRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatContractDistributorStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\AppConfigurationRepository.cs" />
+    <Compile Include="Persistence\Repositories\SubdistributorDiscountCouponRepository.cs" />
+    <Compile Include="Persistence\Repositories\SubdistributorPromotionCouponRepository.cs" />
+    <Compile Include="Persistence\Repositories\ContentDatarepository.cs" />
+    <Compile Include="Persistence\Repositories\ContentLinkRepository.cs" />
+    <Compile Include="Persistence\Repositories\ContractSubdistributorRepository.cs" />
+    <Compile Include="Persistence\Repositories\ContractDistributorRepository.cs" />
+    <Compile Include="Persistence\Repositories\AddressRepository.cs" />
+    <Compile Include="Persistence\Repositories\AddressStateRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatSubdistributorContactAreaRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatCropCategoryRepository.cs" />
+    <Compile Include="Persistence\Repositories\DistributorCropsXMunicipalityRepository.cs" />
+    <Compile Include="Persistence\Repositories\MunicipalitiesXEmployeeRepository.cs" />
+    <Compile Include="Persistence\Repositories\NewsRepository.cs" />
+    <Compile Include="Persistence\Repositories\NewsSectionRepository.cs" />
+    <Compile Include="Persistence\Repositories\SubdistributorContactRepository.cs" />
+    <Compile Include="Persistence\Repositories\DistributorPurchasesXContractSubdistributorRepository.cs" />
+    <Compile Include="Persistence\Repositories\SubdistributorCropsXMunicipalityRepository.cs" />
+    <Compile Include="Persistence\Repositories\SubdistributorRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatZoneRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatUserStatusRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatUserRoleRepository.cs" />
+    <Compile Include="Persistence\Repositories\SubdistributorCommercialNameRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatDistributorBranchContactAreaRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatDistributorContactAreaRepository.cs" />
+    <Compile Include="Persistence\Repositories\CatCropRepository.cs" />
+    <Compile Include="Persistence\Repositories\DistributorBranchContactRepository.cs" />
+    <Compile Include="Persistence\Repositories\DistributorBranchRepository.cs" />
+    <Compile Include="Persistence\Repositories\DistributorContactRepository.cs" />
+    <Compile Include="Persistence\Repositories\SubdistributorEmployeeRepository.cs" />
+    <Compile Include="Persistence\Repositories\DistributorRepository.cs" />
+    <Compile Include="Persistence\Repositories\DistributorEmployeeRepository.cs" />
+    <Compile Include="Persistence\Repositories\Repository.cs" />
+    <Compile Include="Persistence\Repositories\RolesXUserRepository.cs" />
+    <Compile Include="Persistence\Repositories\PersonRepository.cs" />
+    <Compile Include="Persistence\Repositories\BayerEmployeeRepository.cs" />
+    <Compile Include="Persistence\Repositories\UserRepository.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PSDContext.cs" />
+    <Compile Include="UnitOfWork.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PSD.Model\PSD.Model.csproj">
+      <Project>{33e0f1ec-42df-4f46-b980-ed39a20b00af}</Project>
+      <Name>PSD.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
